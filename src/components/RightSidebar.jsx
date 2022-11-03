@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const RightSidebar = () => {
   return (
@@ -34,7 +35,7 @@ const RightSidebar = () => {
         <div className="bg-white border rounded-xl p-5 space-x-2">
           <div className='flex items-center justify-between text-[#374151]'>
             <h1 className='text-xl font-extrabold'>Drafts(2)</h1>
-            <button className='py-1 px-3 rounded-full border hover:bg-[#e5e7eb]'>See all</button>
+            <Link to='drafts' className='py-1 px-3 rounded-full border hover:bg-[#e5e7eb]'>See all</Link>
           </div>
           <a className='cursor-pointer'>
             <h1 className='text-lg font-bold text-[#3466f6] mb-1'>No title</h1>
@@ -122,7 +123,7 @@ const RightSidebar = () => {
         <div className="bg-white border rounded-xl p-5 space-y-4">
           <div className='flex items-center justify-between text-[#374151]'>
             <h2 className='text-xl font-extrabold'>Bookmarks</h2>
-            <button className='py-1 px-3 rounded-full border hover:bg-[#e5e7eb]'>See all</button>
+            <Link to='bookmarks' className='py-1 px-3 rounded-full border hover:bg-[#e5e7eb]'>See all</Link>
           </div>
           <div>
             <div className='border-b pb-3 mb-4 cursor-pointer'>

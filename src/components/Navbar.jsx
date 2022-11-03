@@ -1,9 +1,11 @@
 import {useState, useRef, useEffect} from 'react'
 import myPicture from '../assets/img/myPicture.jpg'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  let notificationsBox   = useRef(0)
-  const [open, isOpen]     = useState(false)
+  let notificationsBox = useRef(0)
+  const [open, isOpen] = useState(false)
+  const [profileOpen, isProfileOpen] = useState(false)
   const [notificationsOpen, isNotificationsOpen] = useState(false)
   /*useEffect(()=>{
     const handler = (e)=>{
@@ -37,7 +39,7 @@ const Navbar = () => {
               <svg fill='#374151' className="h-5 w-5" viewBox="0 0 512 512"><path d="M256 64c123.5 0 223.1 79 223.1 176S379.5 416 256 416c-28.25 0-56.24-4.25-83.24-12.75a31.662 31.662 0 0 0-28.07 4.338c-22.1 16.25-58.54 35.29-102.7 39.66 11.1-15.12 29.75-40.5 40.74-69.62l.129-.339c4.283-11.27 1.79-23.1-6.43-32.82C47.51 313.1 32.06 277.6 32.06 240 32.06 143 132.6 64 256 64zm0-32C114.7 32 .027 125.1.027 240c0 47.63 19.92 91.25 52.91 126.2-14.87 39.5-45.87 72.88-46.37 73.25-6.624 7-8.374 17.25-4.625 26C5.817 474.2 14.38 480 24 480c61.49 0 109.1-25.75 139.1-46.25 29 9.05 60.2 14.25 92.9 14.25 141.4 0 255.1-93.13 255.1-208S397.4 32 256 32z"></path></svg>
                 <span>Comments</span>
               </button >
-              <button className='flex gap-2 bg-[#e5e7eb] rounded-t-md py-3 px-4 text-[#3466f6] border-b-2 border-blue-600'>
+              <button className='flex gap-2 hover:bg-[#e5e7eb] rounded-t-md py-3 px-4 text-[#3466f6] border-b-2 border-blue-600'>
               <svg fill='#3466f6' className="h-5 w-5" viewBox="0 0 512 512"><path d="M88 192H40c-22.06 0-40 17.9-40 40v208c0 22.1 17.94 40 40 40h48c22.1 0 40-17.9 40-40V232c0-22.1-17.9-40-40-40zm8 248c0 4.4-3.59 8-8 8H40c-4.41 0-8-3.6-8-8V232c0-4.4 3.59-8 8-8h48c4.41 0 8 3.6 8 8v208zm416-218.5c0-33.9-27.6-61.5-61.5-61.5H348c11.98-27.06 18.83-53.48 18.83-67.33C366.9 62.84 343.6 32 304.9 32c-41.22 0-50.7 29.11-59.12 54.81C218.1 171.1 160 184.8 160 208c0 9.1 7.5 16 16 16 4.1 0 8.2-1.6 11.3-4.7 52.68-53.04 67.02-56.11 88.81-122.5C285.3 68.95 288.2 64 304.9 64c20.66 0 29.94 16.77 29.94 28.67 0 10.09-8.891 43.95-26.62 75.48a15.976 15.976 0 0 0-2.046 7.83C306.2 185.5 314 192 322.2 192h128.3c16.3 0 29.5 13.2 29.5 29.5 0 15.33-12.08 28.16-27.48 29.2-8.462.581-14.91 7.649-14.91 15.96 0 12.19 12.06 12.86 12.06 30.63 0 14.14-10.11 26.3-24.03 28.89-5.778 1.082-13.06 6.417-13.06 15.75 0 8.886 6.765 10.72 6.765 23.56 0 31.02-31.51 22.12-31.51 43.05 0 3.526 1.185 5.13 1.185 10.01C389 434.8 375.8 448 359.5 448h-55.6c-82.01 0-108.3-64.02-127.9-64.02-8.873 0-16 7.193-16 15.96-.9 16.36 64.6 80.06 143.9 80.06h55.63c33.91 0 61.5-27.58 61.5-61.47 18.55-10.86 30.33-31 30.33-53.06 0-4.797-.594-9.594-1.734-14.27 19.31-10.52 32.06-30.97 32.06-53.94 0-7.219-1.281-14.31-3.75-20.98C498.2 266.2 512 245.3 512 221.5z"></path></svg>
                 <span className='flex gap-2'>Reactions</span>
               </button>
@@ -52,6 +54,44 @@ const Navbar = () => {
             <button className='hover:bg-[#e5e7eb] py-3 font-bold text-blue-600'>See all notifications</button>
       </div>
       </div>
+
+      {/* pROFILE BOX */}
+      <div className={`${profileOpen ? 'md:flex' : 'hidden'} hidden text-[#111827]`}>
+      <div className='absolute bg-white top-[3.9rem] right-[1.7rem] w-5 h-5 z-40 origin-center rotate-45 border-t shadow-t shadow-l rounded-l-sm border-l'></div>
+      <div className='W-18 h-18 rounded-md absolute flex flex-col bg-white top-[4.589rem] right-[1.275rem] z-50 border-x border-b shadow'>
+            <div className='flex gap-4 items-center border-b hover:bg-[#e5e7eb] cursor-pointer p-6'>
+              <div>
+                <img className='h-14 w-14 rounded-full ' src={myPicture} alt="" />
+              </div>
+              <div>
+                <h3 className='font-bold'>Zakaria Adessamed Brahimi</h3>
+                <p className='text-[#4b5563] text-sm text-ellipsis whitespace-nowrap overflow-hidden'>@ZakariaBrahimi</p>
+              </div>
+            </div>
+            <div className=" flex flex-col gap-3 border-b">            
+              
+              <Link to="drafts" aria-label="Drafts" className="py-4 px-6 flex gap-2 p-2 hover:bg-[#e5e7eb] font-medium">
+                <svg fill='#111827' className="h-5 w-5" viewBox="0 0 384 512"><path fill="currentColor" d="M365.3 125.3 258.8 18.8C246.7 6.742 230.5 0 213.5 0H64C28.65 0 0 28.65 0 64l.006 384c0 35.35 28.65 64 64 64H320c35.35 0 64-28.65 64-64V170.5c0-17-6.7-33.2-18.7-45.2zM224 34.08c4.477 1.566 8.666 3.846 12.12 7.299l106.5 106.5c3.48 3.421 5.78 7.621 7.28 12.121H240c-8.8 0-16-7.2-16-16V34.08zM352 448c0 17.64-14.36 32-32 32H64c-17.64 0-32-14.36-32-32V64c0-17.64 14.36-32 32-32h128v112c0 26.5 21.5 48 48 48h112v256zM96.82 360.1a15.883 15.883 0 0 0-4.342 8.113l-12.16 60.79c-2.217 11.11 7.574 20.91 18.69 18.68l60.79-12.15a15.867 15.867 0 0 0 8.109-4.344l122.2-122.2c7.559-7.555 12.82-17.37 13.76-28.02 1.158-13.14-3.432-25.7-12.62-34.88l-8.172-8.176c-7.559-7.559-17.37-12.83-28.01-13.78-13.14-1.172-25.7 3.414-34.89 12.59L96.82 360.1zm51.98 45.2-32.72 6.539 6.543-32.71 86.22-86.23 26.18 26.18L148.8 405.3zm93.8-146.1c4.652-4.645 12.19-4.652 16.84.004l9.338 9.336c4.641 4.64 4.668 12.18-.004 16.84l-11.22 11.22-26.18-26.18L242.6 259.2z"></path></svg>
+                <span>My drafts</span>
+              </Link>
+              <Link to="bookmarks" aria-label="Bookmarks" className="py-4 px-6 flex gap-2 p-2 hover:bg-[#e5e7eb] font-medium">
+                <svg fill='#111827' className="h-5 w-5" viewBox="0 0 448 512"><path fill="currentColor" d="M448 368V48c0-26.51-21.5-48-48-48H80C35.82 0 0 35.82 0 80v368c0 35.35 28.66 64 64 64h368c8.844 0 16-7.156 16-16s-7.2-16-16-16h-16v-66.95c18.6-6.65 32-24.25 32-45.05zM320 32v174.7l-54.9-43.2c-2-2.3-5.6-3.5-9.1-3.5s-7.062 1.172-10 3.5l-54 43.2V32h128zm64 448H64c-17.64 0-32-14.36-32-32s14.36-32 32-32h320v64zm16-96H64c-11.71 0-22.55 3.389-32 8.9V80c0-26.51 21.49-48 48-48h80v208c0 6.156 3.531 11.75 9.062 14.42 5.562 2.672 12.09 1.891 16.94-1.922L256 196.5l69.1 56.02c3.8 2.28 7.3 3.48 10.9 3.48 2.344 0 4.719-.516 6.938-1.578C348.5 251.8 352 246.2 352 240V32h48c8.8 0 16 7.16 16 16v320c0 8.8-7.2 16-16 16z"></path></svg>
+                <span>My bookmarks</span>
+              </Link>
+              <Link to="explore" aria-label="Explore" className="py-4 px-6 flex gap-2 p-2 hover:bg-[#e5e7eb] font-medium">
+                <svg fill='#111827' class="h-5 w-5" aria-hidden="true" data-icon="browser" data-prefix="fal" viewBox="0 0 512 512"><path fill="currentColor" d="M0 96c0-35.35 28.65-64 64-64h384c35.3 0 64 28.65 64 64v320c0 35.3-28.7 64-64 64H64c-35.35 0-64-28.7-64-64V96zm160 32h320V96c0-17.67-14.3-32-32-32H160v64zm-32-64H64c-17.67 0-32 14.33-32 32v32h96V64zm-96 96v256c0 17.7 14.33 32 32 32h384c17.7 0 32-14.3 32-32V160H32z"></path></svg>                <span>Account settings</span>
+              </Link>
+              
+              
+            </div>
+            <a href='0' class="py-4 px-6 text-[#ef4444] flex gap-2 items-center hover:bg-[#e5e7eb]">
+              <svg fill='#ef4444' class="w-5 h-5" viewBox="0 0 512 512"><path d="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z"></path></svg>
+              <span>Log out</span>
+            </a>
+      </div>
+      </div>
+
+
 
       {/* background opacity */}
       <section onClick={()=>{isOpen(false)}} className={`${open ? 'flex' : 'hidden'} bg-[#00000066] w-screen h-screen float-left z-50 absolute`}></section>
@@ -161,7 +201,7 @@ const Navbar = () => {
           <button onClick={()=>{isNotificationsOpen(!notificationsOpen)}} type="button" className="hidden md:flex hover:bg-[#e5e7eb] rounded-full p-2">
             <svg className="h-6 w-6" viewBox="0 0 448 512"><path d="M224 480c-17.66 0-32-14.38-32-32.03h-32c0 35.31 28.72 64.03 64 64.03s64-28.72 64-64.03h-32c0 17.65-14.34 32.03-32 32.03zm209.38-145.19c-27.96-26.62-49.34-54.48-49.34-148.91 0-79.59-63.39-144.5-144.04-152.35V16c0-8.84-7.16-16-16-16s-16 7.16-16 16v17.56C127.35 41.41 63.96 106.31 63.96 185.9c0 94.42-21.39 122.29-49.35 148.91-13.97 13.3-18.38 33.41-11.25 51.23C10.64 404.24 28.16 416 48 416h352c19.84 0 37.36-11.77 44.64-29.97 7.13-17.82 2.71-37.92-11.26-51.22zM400 384H48c-14.23 0-21.34-16.47-11.32-26.01 34.86-33.19 59.28-70.34 59.28-172.08C95.96 118.53 153.23 64 224 64c70.76 0 128.04 54.52 128.04 121.9 0 101.35 24.21 138.7 59.28 172.08C421.38 367.57 414.17 384 400 384z"></path></svg>
           </button>
-          <button type='' className=''>
+          <button onClick={()=>{isProfileOpen(!profileOpen)}} type='' className=''>
             <img className='rounded-full w-10 h-10'  alt="Zakaria Abdessamed Brahimi" src={myPicture}></img>
           </button>
         </div>
