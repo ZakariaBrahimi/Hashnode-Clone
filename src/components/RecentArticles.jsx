@@ -1,17 +1,22 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 import ArticleCard from './ArticleCard'
+import HeadSection from './HeadSection'
 
 const RecentArticles = () => {
   return (
-    <div>
+    <>
+    <HeadSection />
+    <div className='rounded-b-lg '>
         {
                 [4,5,6,9].map((article)=>{
-                  return 'just for testing, the page will be deployed as soon as possible'
-
+                    return <ArticleCard />
                 })
 
             }
     </div>
+    <Outlet />
+    </>
   )
 }
 

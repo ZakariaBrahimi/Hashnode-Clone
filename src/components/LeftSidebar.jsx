@@ -10,7 +10,7 @@ const LeftSidebar = () => {
   
   return (
     
-      <div className='hidden border rounded-xl bg-white ml-5 py-2 
+      <div className=' h-fit hidden border rounded-xl bg-white ml-5 py-2 
                       lg:block lg:col-span-2
     '>
       <div className='flex flex-col gap-4'>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const ArticleCard = () => {
   return (
-    <div className='p-5 border-b md:relative'>
+    <div className='p-5 border md:relative bg-white'>
         {/* The autor */}
         <div className='flex items-center gap-3 mb-2'>
           <a>
