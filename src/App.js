@@ -9,6 +9,7 @@ import Drafts from "./pages/Drafts";
 import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
 import AccountSettings from "./pages/AccountSettings";
+import LeftRightSides from "./components/LeftRightSides";
 
 
 
@@ -20,14 +21,16 @@ function App() {
       
 
       <Routes>
+        <Route path='account-settings' element={<AccountSettings />} />
+        <Route path='explore' element={<Explore />} />
         <Route path='/' element={<HomePage />}>
           <Route path='feature' element={<FeaturedArticles />} />
-          <Route path='account-settings' element={<AccountSettings />} />
           <Route path='recent' element={<RecentArticles />} />
           <Route path='' element={<Personalized />} />
+        </Route>
+        <Route path="" element={<LeftRightSides />}>
           <Route path='bookmarks' element={<Bookmarks />} />
           <Route path='drafts' element={<Drafts />} />
-          <Route path='explore' element={<Explore />} />
         </Route>
         <Route path="profile" element={<Profile/>} />
       </Routes>

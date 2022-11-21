@@ -6,7 +6,6 @@ import HeadSection from './HeadSection'
 function Personalized() {
   return (
     <>
-    <HeadSection />
     <div className='rounded-b-lg '>
         {
                 [4,5,6,9].map((article)=>{
@@ -15,7 +14,7 @@ function Personalized() {
 
             }
     </div>
-    <Outlet />
+    
     </>
   )
 }

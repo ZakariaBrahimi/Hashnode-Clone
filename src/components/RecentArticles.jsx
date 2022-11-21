@@ -6,7 +6,7 @@ import HeadSection from './HeadSection'
 const RecentArticles = () => {
   return (
     <>
-    <HeadSection />
+    
     <div className='rounded-b-lg '>
         {
                 [4,5,6,9].map((article)=>{
@@ -15,7 +15,6 @@ const RecentArticles = () => {
 
             }
     </div>
-    <Outlet />
     </>
   )
 }
