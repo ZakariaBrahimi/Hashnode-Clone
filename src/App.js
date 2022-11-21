@@ -10,18 +10,24 @@ import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
 import AccountSettings from "./pages/AccountSettings";
 import LeftRightSides from "./components/LeftRightSides";
+import DeleteAccount from "./components/DeleteAccount";
+import EditProfile from "./components/EditProfile";
 
 
 
 function App() {
   
   return (
-    <div className="App flex flex-col gap-5 mb-24 bg-[#fafbff]">
+    <div className="App flex flex-col gap-5 h-screen bg-[#fafbff]">
       <Navbar />
       
 
       <Routes>
-        <Route path='account-settings' element={<AccountSettings />} />
+        <Route path='settings' element={<AccountSettings />}>
+          <Route path='delete-account' element={<DeleteAccount />} />
+          <Route path='edit-profile' element={<EditProfile />} />
+        </Route>
+        
         <Route path='explore' element={<Explore />} />
         <Route path='/' element={<HomePage />}>
           <Route path='feature' element={<FeaturedArticles />} />
