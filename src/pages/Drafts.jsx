@@ -17,10 +17,10 @@ const Drafts = () => {
 
 
         <div className='flex flex-col gap-6 px-4 py-6 md:flex-row border-b'>
-          <div className='bg-[#e5e7eb] pb-[50%] cursor-pointer md:pb-0 mb-4 relative rounded-md flex justify-center items-center w-full md:w-4/12 lg:w-6/12'>
+          <div className='bg-[#e5e7eb] pb-[50%]  cursor-pointer md:pb-0 mb-4 relative rounded-md flex justify-center items-center w-full md:w-4/12 lg:w-6/12'>
             <a className=' mr-4 md:mr-0 h-max-content top-[52%] md:top-0 absolute md:relative opacity-70' href="0">NO COVER</a>
           </div>
-          <div className=''>
+          <div className='w-7/12'>
             <h2 className='mb-2 text-xl font-bold cursor-pointer text-[#3466f6]'>No Title</h2>
             <p className='text-[#374151] mb-2 cursor-pointer'>grfgrf ![cfm logo.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1664556892947/tYYqufcfu.jpg align="left") </p>
             <p className='text-[#374151]'><span className='opacity-75'>Last updated</span> : September 30, 2022</p>
@@ -37,7 +37,7 @@ const Drafts = () => {
           <div className='bg-[#e5e7eb] pb-[50%] cursor-pointer md:pb-0 mb-4 relative rounded-md flex justify-center items-center w-full md:w-4/12 lg:w-6/12'>
             <a className=' mr-4 md:mr-0 h-max-content top-[52%] md:top-0 absolute md:relative opacity-70' href="0">NO COVER</a>
           </div>
-          <div className=''>
+          <div className='w-7/12'>
             <h2 className='mb-2 text-xl font-bold cursor-pointer text-[#3466f6]'>No Title</h2>
             <p className='text-[#374151] mb-2 cursor-pointer'>grfgrf ![cfm logo.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1664556892947/tYYqufcfu.jpg align="left") </p>
             <p className='text-[#374151]'><span className='opacity-75'>Last updated</span> : September 30, 2022</p>
@@ -54,7 +54,7 @@ const Drafts = () => {
           <div className='bg-[#e5e7eb] pb-[50%] cursor-pointer md:pb-0 mb-4 relative rounded-md flex justify-center items-center w-full md:w-4/12 lg:w-6/12'>
             <a className=' mr-4 md:mr-0 h-max-content top-[52%] md:top-0 absolute md:relative opacity-70' href="0">NO COVER</a>
           </div>
-          <div className=''>
+          <div className='w-7/12'>
             <h2 className='mb-2 text-xl font-bold cursor-pointer text-[#3466f6]'>No Title</h2>
             <p className='text-[#374151] mb-2 cursor-pointer'>grfgrf ![cfm logo.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1664556892947/tYYqufcfu.jpg align="left") </p>
             <p className='text-[#374151]'><span className='opacity-75'>Last updated</span> : September 30, 2022</p>
@@ -71,7 +71,7 @@ const Drafts = () => {
           <div className='bg-[#e5e7eb] pb-[50%] cursor-pointer md:pb-0 mb-4 relative rounded-md flex justify-center items-center w-full md:w-4/12 lg:w-6/12'>
             <a className=' mr-4 md:mr-0 h-max-content top-[52%] md:top-0 absolute md:relative opacity-70' href="0">NO COVER</a>
           </div>
-          <div className=''>
+          <div className='w-7/12'>
             <h2 className='mb-2 text-xl font-bold cursor-pointer text-[#3466f6]'>No Title</h2>
             <p className='text-[#374151] mb-2 cursor-pointer'>grfgrf ![cfm logo.jpg](https://cdn.hashnode.com/res/hashnode/image/upload/v1664556892947/tYYqufcfu.jpg align="left") </p>
             <p className='text-[#374151]'><span className='opacity-75'>Last updated</span> : September 30, 2022</p>

@@ -29,7 +29,6 @@ function App() {
           <Route path='' element={<EditProfile />} />
         </Route>
         
-        <Route path='explore' element={<Explore />} />
         <Route path='/' element={<HomePage />}>
           <Route path='feature' element={<FeaturedArticles />} />
           <Route path='recent' element={<RecentArticles />} />
@@ -39,6 +38,7 @@ function App() {
           <Route path='bookmarks' element={<Bookmarks />} />
           <Route path='drafts' element={<Drafts />} />
         </Route>
+        <Route path='explore' element={<Explore />} />
         <Route path="profile" element={<Profile/>} />
         <Route path="/create-story" element={<CreateNewArticle/>} />
       </Routes>
