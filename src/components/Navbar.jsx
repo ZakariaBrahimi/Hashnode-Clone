@@ -31,7 +31,7 @@ const Navbar = () => {
   return (
     <header className='relative'>
       {/* Notifications Box */}
-      <div className={`${notificationsOpen ? 'md:flex' : 'md:hidden'}`} ref={notificationsBox}>
+      <div className={`${notificationsOpen ? 'md:flex' : 'hidden'} hidden`} ref={notificationsBox}>
       <div className='absolute bg-white top-[3.9rem] right-[5.25rem] w-5 h-5 z-50 origin-center rotate-45 border-t shadow-t shadow-l rounded-l-sm border-l'></div>
       <div className='rounded-md absolute flex flex-col bg-white top-[4.589rem] right-20 z-40 border-x border-b shadow pt-6'>
             <div className='mx-4 flex justify-between items-center border-b pb-4'>
@@ -186,14 +186,14 @@ const Navbar = () => {
         </form>
 
         {/* middle side 2 */}  
-        <a class="
+        <Link class="
         hidden text-sm gap-2 bg-blue-600 rounded-full p-2.5 justify-center items-center text-white font-semibold  
         md:flex md:col-start-7 md:col-end-10 ml-24
         lg:col-span-1 lg:ml-0
-        " href="/create/story">
+        " to="create-story">
           <svg fill='white' class="h-4 w-4" viewBox="0 0 512 512"><path d="M362.7 19.32c25-24.998 65.6-24.998 90.6 0l39.4 39.43c25 24.99 25 65.55 0 90.55l-48.4 48.4-130-129.98 48.4-48.4zm59 200.98L188.5 453.4c-10.4 10.4-23.3 18.1-37.4 22.2L30.77 511c-8.42 2.5-17.53.2-23.74-6.9-6.21-5.3-8.532-14.4-6.054-22.9L36.37 360.9c4.16-14.1 11.79-27 22.2-37.4L291.7 90.34l130 129.96z"></path></svg>
           <span>Write</span>
-        </a>
+        </Link>
 
         {/* right side */}
         <div className='flex items-center justify-end gap-7 col-start-9 col-span-4 relative
@@ -218,5 +218,5 @@ const Navbar = () => {
     </header>
   )
 }
-
+//TODO: The notification/profile boxes opened, and then the size of screen is less than 768px , those two boxes doesn't close
 export default Navbar

@@ -6,7 +6,7 @@ const CreateNewArticle = () => {
     <>
     <div className="w-[50vw] mx-auto">
         <div>
-          input
+          
           
         </div>
 

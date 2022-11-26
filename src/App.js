@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path='settings' element={<AccountSettings />}>
           <Route path='delete-account' element={<DeleteAccount />} />
-          <Route path='edit-profile' element={<EditProfile />} />
+          <Route path='' element={<EditProfile />} />
         </Route>
         
         <Route path='explore' element={<Explore />} />
@@ -40,7 +40,7 @@ function App() {
           <Route path='drafts' element={<Drafts />} />
         </Route>
         <Route path="profile" element={<Profile/>} />
-        <Route path="new-article" element={<CreateNewArticle/>} />
+        <Route path="/create-story" element={<CreateNewArticle/>} />
       </Routes>
     </div>
   );
