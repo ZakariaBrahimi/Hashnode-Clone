@@ -12,6 +12,7 @@ import AccountSettings from "./pages/AccountSettings";
 import LeftRightSides from "./components/LeftRightSides";
 import DeleteAccount from "./components/DeleteAccount";
 import EditProfile from "./components/EditProfile";
+import CreateNewArticle from "./pages/CreateNewArticle";
 
 
 
@@ -39,6 +40,7 @@ function App() {
           <Route path='drafts' element={<Drafts />} />
         </Route>
         <Route path="profile" element={<Profile/>} />
+        <Route path="new-article" element={<CreateNewArticle/>} />
       </Routes>
     </div>
   );

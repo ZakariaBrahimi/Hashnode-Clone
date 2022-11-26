@@ -2,7 +2,7 @@ import React from 'react'
 
 const EditProfile = () => {
   return (
-    <div className='bg-white border mb-24 rounded-lg lg:col-span-8 xl:col-span-9 pb-8'>
+    <div className='bg-white border mb-24 rounded-lg lg:col-span-9 xl:col-span-9 pb-8'>
             <div class="flex flex-row flex-wrap p-8 pb-0 mb-0">
                 <div class="w-full lg:w-1/2 lg:pr-10">
                     <h4 class="mb-5 text-xl font-bold text-gray-900 dark:text-gray-100">Basic Info</h4>

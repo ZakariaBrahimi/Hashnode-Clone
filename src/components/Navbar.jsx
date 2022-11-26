@@ -3,27 +3,28 @@ import myPicture from '../assets/img/myPicture.jpg'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  let notificationsBox = useRef(0)
+  let notificationsBox = useRef()
+  let notificationsIcon = useRef()
   const [open, isOpen] = useState(false)
   const [profileOpen, isProfileOpen] = useState(false)
   const [notificationsOpen, isNotificationsOpen] = useState(false)
-  /*useEffect(()=>{
+  useEffect(()=>{
     const handler = (e)=>{
-      if(!notificationsBox.current.contains(e.target)){
-        isNotificationsOpen()
+      //console.log(e.target)
+      //console.log(notificationsBox.current)
+       if(!notificationsBox.current.contains(e.target) && e.target !== notificationsIcon.current){
+        isNotificationsOpen(false)
       }
     }
     document.addEventListener('mousedown', handler)
     return ()=>{
       document.removeEventListener('mousedown', handler)
     }
-  })*/
-  console.log(notificationsBox.current)
-  console.log(notificationsOpen)
+  })
   return (
     <header className='relative'>
       {/* Notifications Box */}
-      <div className={`${notificationsOpen ? 'md:flex' : 'hidden'} hidden`} ref={notificationsBox}>
+      <div className={`${notificationsOpen ? 'md:flex' : 'md:hidden'}`} ref={notificationsBox}>
       <div className='absolute bg-white top-[3.9rem] right-[5.25rem] w-5 h-5 z-50 origin-center rotate-45 border-t shadow-t shadow-l rounded-l-sm border-l'></div>
       <div className='rounded-md absolute flex flex-col bg-white top-[4.589rem] right-20 z-40 border-x border-b shadow pt-6'>
             <div className='mx-4 flex justify-between items-center border-b pb-4'>
@@ -78,7 +79,7 @@ const Navbar = () => {
                 <svg fill='#111827' className="h-5 w-5" viewBox="0 0 448 512"><path fill="currentColor" d="M448 368V48c0-26.51-21.5-48-48-48H80C35.82 0 0 35.82 0 80v368c0 35.35 28.66 64 64 64h368c8.844 0 16-7.156 16-16s-7.2-16-16-16h-16v-66.95c18.6-6.65 32-24.25 32-45.05zM320 32v174.7l-54.9-43.2c-2-2.3-5.6-3.5-9.1-3.5s-7.062 1.172-10 3.5l-54 43.2V32h128zm64 448H64c-17.64 0-32-14.36-32-32s14.36-32 32-32h320v64zm16-96H64c-11.71 0-22.55 3.389-32 8.9V80c0-26.51 21.49-48 48-48h80v208c0 6.156 3.531 11.75 9.062 14.42 5.562 2.672 12.09 1.891 16.94-1.922L256 196.5l69.1 56.02c3.8 2.28 7.3 3.48 10.9 3.48 2.344 0 4.719-.516 6.938-1.578C348.5 251.8 352 246.2 352 240V32h48c8.8 0 16 7.16 16 16v320c0 8.8-7.2 16-16 16z"></path></svg>
                 <span>My bookmarks</span>
               </Link>
-              <Link to="account-settings" aria-label="Explore" className="py-4 px-6 flex gap-2 p-2 hover:bg-[#e5e7eb] font-medium">
+              <Link to="settings" aria-label="Explore" className="py-4 px-6 flex gap-2 p-2 hover:bg-[#e5e7eb] font-medium">
                 <svg fill='#111827' class="h-5 w-5" aria-hidden="true" data-icon="browser" data-prefix="fal" viewBox="0 0 512 512"><path fill="currentColor" d="M0 96c0-35.35 28.65-64 64-64h384c35.3 0 64 28.65 64 64v320c0 35.3-28.7 64-64 64H64c-35.35 0-64-28.7-64-64V96zm160 32h320V96c0-17.67-14.3-32-32-32H160v64zm-32-64H64c-17.67 0-32 14.33-32 32v32h96V64zm-96 96v256c0 17.7 14.33 32 32 32h384c17.7 0 32-14.3 32-32V160H32z"></path></svg>                <span>Account settings</span>
               </Link>
               
@@ -198,7 +199,10 @@ const Navbar = () => {
 
 
           {/* Notification Icon */}
-          <button onClick={()=>{isNotificationsOpen(!notificationsOpen)}} type="button" className="hidden md:flex hover:bg-[#e5e7eb] rounded-full p-2">
+          <button ref={notificationsIcon} onClick={()=>{
+            //console.log(notificationsOpen)
+            isNotificationsOpen(!notificationsOpen)
+            }} type="button" className="hidden md:flex hover:bg-[#e5e7eb] rounded-full p-2">
             <svg className="h-6 w-6" viewBox="0 0 448 512"><path d="M224 480c-17.66 0-32-14.38-32-32.03h-32c0 35.31 28.72 64.03 64 64.03s64-28.72 64-64.03h-32c0 17.65-14.34 32.03-32 32.03zm209.38-145.19c-27.96-26.62-49.34-54.48-49.34-148.91 0-79.59-63.39-144.5-144.04-152.35V16c0-8.84-7.16-16-16-16s-16 7.16-16 16v17.56C127.35 41.41 63.96 106.31 63.96 185.9c0 94.42-21.39 122.29-49.35 148.91-13.97 13.3-18.38 33.41-11.25 51.23C10.64 404.24 28.16 416 48 416h352c19.84 0 37.36-11.77 44.64-29.97 7.13-17.82 2.71-37.92-11.26-51.22zM400 384H48c-14.23 0-21.34-16.47-11.32-26.01 34.86-33.19 59.28-70.34 59.28-172.08C95.96 118.53 153.23 64 224 64c70.76 0 128.04 54.52 128.04 121.9 0 101.35 24.21 138.7 59.28 172.08C421.38 367.57 414.17 384 400 384z"></path></svg>
           </button>
           <button onClick={()=>{isProfileOpen(!profileOpen)}} type='' className=''>

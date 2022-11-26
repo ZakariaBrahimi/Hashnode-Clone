@@ -3,8 +3,8 @@ import { Link, Outlet } from 'react-router-dom'
 
 const AccountSettings = () => {
   return (
-    <div className='sm:max-w-[640px] sm:mx-auto md:max-w-[760px] lg:max-w-[1030px] lg:grid lg:grid-cols-12 lg:gap-4 xl:max-w-[1280px]'>
-        <div className='lg:cols-span-5 lg:col-span-4 xl:col-span-3'>
+    <div className='sm:max-w-[640px] sm:mx-auto md:max-w-[760px] md:mx-auto lg:max-w-[1030px] lg:mx-auto lg:grid lg:grid-cols-12 gap-4 xl:max-w-[1280px] xl:mx-auto'>
+        <div className='lg:col-span-3 xl:col-span-3 '>
             <div class="p-4 mb-2 bg-white border rounded-lg dark:text-gray-400 dark:bg-gray-900 dark:border-gray-800">
                 <h1 class="text-2xl font-bold">User Settings</h1>
             </div>
