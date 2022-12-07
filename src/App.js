@@ -13,6 +13,8 @@ import LeftRightSides from "./components/LeftRightSides";
 import DeleteAccount from "./components/DeleteAccount";
 import EditProfile from "./components/EditProfile";
 import CreateNewArticle from "./pages/CreateNewArticle";
+import LoginSignup from "./pages/LoginSignup";
+import Article from "./pages/Article";
 
 
 
@@ -21,8 +23,6 @@ function App() {
   return (
     <div className="App flex flex-col gap-5 h-screen bg-[#fafbff]">
       <Navbar />
-      
-
       <Routes>
         <Route path='settings' element={<AccountSettings />}>
           <Route path='delete-account' element={<DeleteAccount />} />
@@ -41,6 +41,8 @@ function App() {
         <Route path='explore' element={<Explore />} />
         <Route path="profile" element={<Profile/>} />
         <Route path="/create-story" element={<CreateNewArticle/>} />
+        <Route path="/onboard" element={<LoginSignup/>} />
+        <Route path="article" element={<Article/>} />
       </Routes>
     </div>
   );

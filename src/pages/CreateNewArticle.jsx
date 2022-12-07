@@ -6,17 +6,41 @@ import axios  from 'axios'
 const CreateNewArticle = () => {
   const [photos, setPhotos] = useState([])
   const [uploadImg, setUploadImg] = useState(false)
+  const [infoBox, setInfoBox] = useState(true)
   const [uploadImgFrom, setUploadImgFrom] = useState('local')
-  const inputUpload = useRef()
   const [selectedImg, setSelectedImg] = useState(undefined)
+  const [selectedImgFromUnsplash, setselectedImgFromUnsplash] = useState(undefined)
   const [imgPreview, setImgPreview] = useState(undefined)
+  const onSelectPhotoFromUnsplash = (e)=>{
+    console.log('e.target.src')
+    console.log(e.target.src)
+    //if (!e.target.files || e.target.files.length === 0) {
+      //setSelectedImg(undefined)
+      //return
+  //}
+    setselectedImgFromUnsplash(e.target.src)
+    setInfoBox(true)
+  }
+  useEffect(()=>{
+    if (!selectedImgFromUnsplash) {
+      setImgPreview(undefined)
+      return
+    }
+    setUploadImg(false)
+    //console.log(selectedImgFromUnsplash)
+    //const objectUrl = URL.createObjectURL(selectedImgFromUnsplash)
+    setImgPreview(selectedImgFromUnsplash)
+    // free memory when ever this component is unmounted
+    //return () => URL.revokeObjectURL(objectUrl)
+  },[selectedImgFromUnsplash,])
+  
   const onSelectFile = (e)=>{
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedImg(undefined)
       return
   }
     setSelectedImg(e.target.files[0])
-    //console.log(selectedImg)
+    setInfoBox(true)
   }
   useEffect(()=>{
     if (!selectedImg) {
@@ -37,12 +61,31 @@ const CreateNewArticle = () => {
       headers: { Authorization: "Client-ID 1yZA8BKiDDm37swWqYwX-O6pswpYU16pgxHtDu3A3i8", },
     }).then((response)=>{
       console.log(response.data[0].user['first_name'] + ' ' + response.data[0].user['last_name'])
-      setPhotos(response.data) 
+      setPhotos(response.data)
     }).catch((error)=>{
       console.log(error)
     })
   }
-
+  const [searchedPhoto, setSearchedPhoto] = useState('')
+  const searchPhoto = (e)=>{
+    console.log(e)
+    axios({
+      method: 'get',
+      url: `https://api.unsplash.com/search/photos/?query=${searchedPhoto}`,
+      headers: { Authorization: "Client-ID 1yZA8BKiDDm37swWqYwX-O6pswpYU16pgxHtDu3A3i8", 
+    },
+    }).then((response)=>{
+      //console.log(response.data.results)
+      setPhotos(response.data.results)
+    }).catch((error)=>{
+      console.log(error)
+    })
+  }
+  const titleSubtitle = useRef()
+  const setSubtitleInput = `<textarea maxLength='150' style='' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold	 text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Subtitle ..." ></textarea>`
+  const addSubtitle = (e)=>{
+    document.getElementById('box').innerHTML += setSubtitleInput
+  }
   return (
     <div className="bg-white h-full mt-[-20px]">
     <div className="lg:w-[80vw] w-[98vw] sm:w-[88vw] md:w-[78vw] xl:w-[65vw] mx-auto mt-12 ">
@@ -68,7 +111,7 @@ const CreateNewArticle = () => {
                 <div class="flex justify-center  items-center align-middle mt-10 mb-6">
                   <label class="py-3 px-12 text-sm font-bold rounded-lg text-white bg-blue-600 cursor-pointer hover:bg-opacity-75">
                     <span class="">Choose an image</span>
-                    <input onChange={onSelectFile} className="hidden" type="file" ref={inputUpload} data-id="upload-cover" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg, image/webp, image/bmp, image/x, image/tiff, image/vnd, image/xbm" />
+                    <input onChange={onSelectFile} className="hidden" type="file"  data-id="upload-cover" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg, image/webp, image/bmp, image/x, image/tiff, image/vnd, image/xbm" />
                   </label>
                 </div>
                   <p class="text-sm w-full text-center text-[#475569] leading-tight">Recommended dimension is 1600 x 840</p>
@@ -77,33 +120,32 @@ const CreateNewArticle = () => {
               <div className="flex flex-col ">
                 <div className="mt-6">
                   <label for="unsplash-search" class="flex gap-3 w-full mb-5">
-                    <div class="w-11/12">
-                      <input className="rounded-md outline-transparent outline outline-2 outline-offset-2 border py-2 px-4 text-sm w-full bg-[#f8fafc] focus:bg-transparent focus:border-[#3466f6]" id="unsplash-search" type="text" autocomplete="off" placeholder="Type something and press enter"  value="" />
-                      <button className="" disabled="" type="button" variant="no-style" aria-label="Clear image search">
+                    <div class="w-11/12 relative">
+                      <input onClick={searchPhoto} onKeyUp={searchPhoto} onChange={(e)=>setSearchedPhoto(e.target.value)} value={searchedPhoto} className="rounded-md outline-transparent outline outline-2 outline-offset-2 border py-2 px-4 text-sm w-full bg-[#f8fafc] focus:bg-transparent focus:border-[#3466f6]" id="unsplash-search" type="text" autocomplete="off" placeholder="Type something and press enter"  />
+                      <button className="w-3 h-3 cursor-pointer absolute right-3 top-3 opacity-75" disabled="" type="button" variant="no-style" aria-label="Clear image search">
                         <svg class="" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
                       </button>
                     </div>
-                    <button className="py-1 hover:bg-[#e2e8f0] px-3 font-medium text-[#334155] border-transparent border outline-transparent outline-2 outline-offset-2 rounded-md" type="button" variant="transparent" >
+                    <button onClick={searchPhoto} className="py-1 hover:bg-[#e2e8f0] px-3 font-medium text-[#334155] border-transparent border outline-transparent outline-2 outline-offset-2 rounded-md" type="button" variant="transparent" >
                       <svg fill="" class="w-4 h-4" viewBox="0 0 512 512"><path fill="currentColor" d="M507.3 484.7 365.8 343.2c31.2-36.4 49.3-83.5 49.3-135.2 0-114.9-93.13-208-208-208S0 93.13 0 208s93.12 208 207.1 208c51.68 0 98.85-18.96 135.2-50.15l141.5 141.5c4 3.05 8.1 4.65 12.2 4.65s8.188-1.562 11.31-4.688c6.29-6.212 6.29-16.412-.01-22.612zM208 384c-97.9 0-176-79-176-176S110.1 32 208 32s176 78.1 176 176-79 176-176 176z"></path></svg>
                     </button>
                   </label>
                 </div>
-                
-                <div className="w-full pr-4 grid grid-cols-8 gap-4 whitespace-wrap overflow-y-auto h-[18rem]">
+                <div className="w-full pr-4 grid grid-cols-12 gap-4 whitespace-wrap overflow-y-auto h-[18rem]">
                 {
-            photos.map((photo)=>{
-              //console.log(photo.user['first_name'])
+              photos.map((photo)=>{
+              //console.log(photo)
               return (
-                    <div className="col-span-4 rounded-md cursor-pointer whitespace-normal">
-                      <button className="w-full hover:border-[#3466f6] overflow-hidden border-2 rounded-md outline-transparent outline-2 outline-offset-2 bg-transparent">
+                    <div className="col-span-6 lg:col-span-4 rounded-md cursor-pointer whitespace-normal">
+                      <button onClick={onSelectPhotoFromUnsplash} className="w-full hover:border-[#3466f6] overflow-hidden border-2 rounded-md outline-transparent outline-2 outline-offset-2 bg-transparent">
                         <div className="relative pb-[56.25%] w-full">
                           <div className="absolute inset-0 ">
-                              <img src={photo.urls['small']} key={photo['id']} alt="z"  srcset="" className="w-full h-full" />
+                              <img src={photo.urls['small']} key={photo['id']} alt={photo.alt_description} srcset="" className="w-full h-full" />
                           </div>
                         </div>
                       </button>
                       <p className="">
-                        <a href="g">by <span className="font-bold">{photo.user['first_name'] + ' ' + photo.user['last_name']}</span></a>
+                        <a href={photo.user['links']['html']}>by <span className="font-semibold">{photo.user['first_name'] + ' ' + photo.user['last_name']}</span></a>
                       </p>
                     </div>
               )
@@ -113,43 +155,47 @@ const CreateNewArticle = () => {
               </div>
             }
             </div>
-
-
             <button onClick={()=>setUploadImg(!uploadImg)} className={`${imgPreview ? 'hidden' : 'flex'} gap-2 justify-center items-center font-medium border rounded-full py-1 px-3 hover:bg-[#e2e8f0]`}>
               <svg fill="#334155" class="w-5 h-5" viewBox="0 0 512 512"><path d="M324.9 157.8c-11.38-17.38-39.89-17.31-51.23-.063L200.5 268.5l-16.4-22.6c-11.4-16.8-38.2-16-49.7 0l-64.52 89.16c-6.797 9.406-7.75 21.72-2.547 32C72.53 377.5 83.05 384 94.75 384h322.5c11.41 0 21.8-6.281 27.14-16.38a30.922 30.922 0 0 0-1.516-31.56L324.9 157.8zM95.8 352l62.39-87.38 29.91 41.34c3.1 4.24 8.3 7.24 13.3 6.64 5.25-.125 10.12-2.781 13.02-7.188l83.83-129.9L415 352H95.8zM447.1 32h-384C28.65 32-.01 60.65-.01 96v320c0 35.35 28.65 64 63.1 64h384c35.35 0 64-28.65 64-64V96c.01-35.35-27.79-64-63.99-64zM480 416c0 17.64-14.36 32-32 32H64c-17.64 0-32-14.36-32-32V96c0-17.64 14.36-32 32-32h384c17.64 0 32 14.36 32 32v320zM144 192c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm0-64c8.822 0 15.1 7.178 15.1 16s-6.3 16-15.1 16-16-7.2-16-16 7.2-16 16-16z"></path></svg>
               <span>Add Cover</span>
-            </button>
-            
+            </button>          
             <button className="flex gap-2 justify-center items-center font-medium border rounded-full py-1 px-3 hover:bg-[#e2e8f0]">
               <svg fill="#334155" class="w-5 h-5" viewBox="0 0 448 512"><path d="M448 48v72a8 8 0 01-8 8h-16a8 8 0 01-8-8V64H240v384h72a8 8 0 018 8v16a8 8 0 01-8 8H136a8 8 0 01-8-8v-16a8 8 0 018-8h72V64H32v56a8 8 0 01-8 8H8a8 8 0 01-8-8V48a16 16 0 0116-16h416a16 16 0 0116 16z"></path></svg>
               <span>Add Subtitle</span>
             </button>
           </div>
-          {selectedImg && 
-            <div className="relative">
-              <img className="rounded-lg" src={imgPreview} alt=''/>
+          {(selectedImgFromUnsplash || selectedImg) && 
+            <div className="relative w-full">
+              <img className="rounded-lg object-cover md:w-[1600px] md:h-[600px] w-[1000px] h-[400px]" src={imgPreview} alt=''/>
               <div class="absolute top-0 right-0 flex m-5 gap-2 items-center">
                 <button onClick={()=>setUploadImg(true)}  class="flex justify-center items-center py-2 px-4 bg-white border-2 border-transparent rounded-md opacity-75 text-[#333333] hover:opacity-100" data-id="secondary-cover-open" data-title="Go back to select image">
                   <svg class="w-5 h-5" viewBox="0 0 448 512"><path d="M231.536 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L60.113 273H436c6.627 0 12-5.373 12-12v-10c0-6.627-5.373-12-12-12H60.113L238.607 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L3.515 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"></path></svg>
                 </button>
                 
-                <button onClick={()=>setSelectedImg(undefined)}  class="flex justify-center items-center py-2 px-4 bg-white border-2 border-transparent rounded-md opacity-75 text-[#333333] hover:opacity-100" data-id="delete-cover" data-title="Remove cover">
+                <button onClick={()=>{setselectedImgFromUnsplash(undefined); setSelectedImg(undefined)}}  class="flex justify-center items-center py-2 px-4 bg-white border-2 border-transparent rounded-md opacity-75 text-[#333333] hover:opacity-100" data-id="delete-cover" data-title="Remove cover">
                   <svg class="w-5 h-5" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+                </button>
+              </div>
+              <div className={`${!infoBox ? `hidden` : ``} absolute bottom-0 right-0 flex items-center mr-5 py-2 mb-5 my-5 bg-[#e2e8f0] rounded-md`}>
+                <p class="sm:px-6 px-2 sm:text-sm text-xs">
+                  Photo by  
+                  <a className="underline" href="1" rel="noopener nofollow noreferrer" target="_blank"> Andrew Neel </a>
+                  on <a className="underline" href="3" rel="noopener nofollow noreferrer" target="_blank"> Unsplash</a>
+                </p>
+                <button onClick={()=>setInfoBox(false)} type="button" className={`tooltip-handle tooltip-right-aligned flex items-center justify-center p-1 mr-2 border-2 border-transparent rounded-md opacity-75 hover:opacity-1 hover:bg-[#f1f5f9]`} data-id="toggle-attribution" data-title="Toggle image attribution visibility">
+                  <svg className="w-4 h-4" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
                 </button>
               </div>
             </div>
           }
-          <div className="w-full leading-snug">
-            <textarea maxLength='150' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold	 text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Title ..." ></textarea>
+          <div id='box' ref={titleSubtitle} className="w-full leading-snug">
+            <textarea maxLength='150' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Title ..." ></textarea>
+             
           </div>
-          
         </div>
-
         <SimpleMDE />
-          
         <button className="bg-blue-600 mb-8 rounded-full py-2 px-5 text-white font-medium text-lg mr-4">Publish</button>
         <button className="bg-gray-800 mb-8 rounded-full py-2 px-5 text-white font-medium text-lg">Save as Draft</button>
-        
     </div>
     </div>
   )
