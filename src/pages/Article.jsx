@@ -25,6 +25,53 @@ const Article = () => {
       document.removeEventListener('click', commentMoreInfoHandler)
     }
   })
+
+  let tableOfContent = document.getElementById('tableOfContent')
+  window.addEventListener('scroll', (e)=>{
+    tableOfContent.classList.toggle('translate-x-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('translate-y-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('rotate-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('skew-x-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('skew-Y-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('scale-x-105', window.scrollY > 768)
+    tableOfContent.classList.toggle('scale-y-105', window.scrollY > 768)
+    
+    tableOfContent.classList.toggle('fixed', window.scrollY > 768)
+    tableOfContent.classList.toggle('top-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('max-h-[62.5px]',window.scrollY > 768) 
+    tableOfContent.classList.toggle('overflow-hidden', window.scrollY > 768) 
+    tableOfContent.classList.toggle('z-50', window.scrollY > 768)
+    tableOfContent.classList.toggle('bg-white', window.scrollY > 768)
+    tableOfContent.classList.toggle('xl:w-6/12', window.scrollY > 768)
+    tableOfContent.classList.toggle('lg:w-9/12', window.scrollY > 768)
+    tableOfContent.classList.toggle('md:w-10/12', window.scrollY > 768)
+    tableOfContent.classList.toggle('md:mx-auto', window.scrollY > 768)
+    tableOfContent.classList.toggle('sm:w-10/12', window.scrollY > 768)
+    tableOfContent.classList.toggle('w-11/12', window.scrollY > 768)
+
+    tableOfContent.classList.toggle('mb-0', window.scrollY > 768)
+    tableOfContent.classList.toggle('mt-2', window.scrollY > 768)
+    tableOfContent.classList.toggle('rounded-lg', window.scrollY > 768)
+    tableOfContent.classList.toggle('shadow-xl', window.scrollY > 768)
+    tableOfContent.classList.toggle('shadow-gray-500/50', window.scrollY > 768)
+
+    tableOfContent.classList.toggle('transition-all', window.scrollY > 768)
+    tableOfContent.classList.toggle('ease-in-out', window.scrollY > 768)
+    tableOfContent.classList.toggle('duration-200', window.scrollY > 768)
+  })
+
+  let openTableOfContentBtn = document.getElementById('openTableOfContentBtn')
+  window.addEventListener('scroll', (e)=>{
+    openTableOfContentBtn.classList.toggle('hidden', window.scrollY > 768)
+    openTableOfContentBtn.classList.toggle('hidden', window.scrollY <= 768)
+  })
+  const openTableOfContentBox = (e)=>{
+    tableOfContent.classList.toggle('max-h-[400.5px]')
+    tableOfContent.classList.toggle('mt-8')
+    tableOfContent.classList.toggle('transition-all', window.scrollY > 768)
+    tableOfContent.classList.toggle('ease-in-out', window.scrollY > 768)
+    tableOfContent.classList.toggle('duration-500', window.scrollY > 768)
+  }
   return (
     <div className='w-screen bg-white h-screen'>
     <article className='w-screen md:w-11/12 lg:w-9/12 md:mx-auto xl:w-8/12 '>
@@ -72,7 +119,7 @@ const Article = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
                   <span>Edit</span>
                 </button>
-                <button onClick={alert('do you really want to delete this ')} className='flex gap-3 items-center py-3 px-4 hover:bg-[#f3f4f6] w-full'>
+                <button className='flex gap-3 items-center py-3 px-4 hover:bg-[#f3f4f6] w-full'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   <span>Delete</span>
                 </button>     
@@ -80,48 +127,55 @@ const Article = () => {
             </div>
           </div>
           {/* Table of Content */}
-          <div className='w-full border rounded-lg p-4'>
-            <h3 class="font-semibold tracking-tight text-[#111827] uppercase flex gap-5 mb-5">
-              <svg class="w-5 h-5 opacity-75" viewBox="0 0 512 512"><path d="M88 56H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16V72a16 16 0 00-16-16zm0 160H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16v-48a16 16 0 00-16-16zm0 160H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16v-48a16 16 0 00-16-16zm416 24H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8v-16a8 8 0 00-8-8zm0-320H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8V88a8 8 0 00-8-8zm0 160H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8v-16a8 8 0 00-8-8z"></path></svg>
-              <span>Table of contents</span>
-            </h3>
-            <ul className='ml-1 border-l pl-8 font-semibold list-inside w-full'>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Overview of Astro ☄️
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Pros and Cons ⭐
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Astro Components 🌠
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Layouts and Pages 🛸
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Astro Islands 🛰
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Styling in Astro 🪐
-                </a>
-              </li>
-              <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
-                <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
-                  Wrap Up: Should You Use Astro? 🔭
-                </a>
-              </li>
-            </ul> 
+          <div id='tableOfContent' className='w-full' >
+            <div className='border rounded-lg p-4'>
+              <div className='flex justify-between items-baseline'>
+                <h3 class="font-semibold tracking-tight text-[#111827] uppercase flex gap-5 mb-5">
+                  <svg class="w-5 h-5 opacity-75" viewBox="0 0 512 512"><path d="M88 56H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16V72a16 16 0 00-16-16zm0 160H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16v-48a16 16 0 00-16-16zm0 160H40a16 16 0 00-16 16v48a16 16 0 0016 16h48a16 16 0 0016-16v-48a16 16 0 00-16-16zm416 24H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8v-16a8 8 0 00-8-8zm0-320H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8V88a8 8 0 00-8-8zm0 160H168a8 8 0 00-8 8v16a8 8 0 008 8h336a8 8 0 008-8v-16a8 8 0 00-8-8z"></path></svg>
+                  <span>Table of contents</span>
+                </h3>
+                <button id='openTableOfContentBtn' onClick={openTableOfContentBox} className='p-2 hidden rounded-full text-[#4b5563] hover:bg-[#f3f4f6]'>
+                  <svg class="w-5 h-5" viewBox="0 0 448 512"><path d="M443.5 162.6l-7.1-7.1c-4.7-4.7-12.3-4.7-17 0L224 351 28.5 155.5c-4.7-4.7-12.3-4.7-17 0l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l211 211.1c4.7 4.7 12.3 4.7 17 0l211-211.1c4.8-4.7 4.8-12.3.1-17z"></path></svg>
+                </button>
+              </div>
+              <ul className='ml-1 border-l pl-8 font-semibold list-inside w-full'>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Overview of Astro ☄️
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Pros and Cons ⭐
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Astro Components 🌠
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Layouts and Pages 🛸
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Astro Islands 🛰
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Styling in Astro 🪐
+                  </a>
+                </li>
+                <li class="text-[#1f2937] p-1 w-full  border border-transparent rounded-lg hover:bg-[#e5e7eb] hover:font-bold hover:shadow-lg hover:text-blue-600 shadow-blue-500/50">
+                  <a className=' w-full overflow-hidden text-ellipsis' id="db15b2d4-3973-422e-9d51-3721a36a2edc" href="#heading-overview-of-astro">
+                    Wrap Up: Should You Use Astro? 🔭
+                  </a>
+                </li>
+              </ul> 
+            </div>
           </div>
           {/* Content */}
           <div className='border-b'>
