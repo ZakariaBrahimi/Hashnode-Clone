@@ -195,7 +195,7 @@ const CreateNewArticle = () => {
         </div>
         <SimpleMDE />
         <button className="bg-blue-600 mb-8 rounded-full py-2 px-5 text-white font-medium text-lg mr-4">Publish</button>
-        <button className="bg-gray-800 mb-8 rounded-full py-2 px-5 text-white font-medium text-lg">Save as Draft</button>
+        <button className="text-gray-600 hover:bg-gray-300 mb-8 rounded-full py-2 px-5 font-medium text-lg">Save as Draft</button>
     </div>
     </div>
   )
