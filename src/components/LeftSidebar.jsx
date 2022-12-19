@@ -10,26 +10,26 @@ const LeftSidebar = () => {
   
   return (
     
-      <div className=' h-fit hidden border rounded-xl bg-white ml-5 py-2 
+      <div className=' h-fit sticky hidden border dark:border-[#1f2a3c] rounded-xl bg-white dark:bg-[#0f172a] dark:text-white ml-5 py-2 
                       lg:block lg:col-span-2
     '>
-      <div className='flex flex-col gap-4'>
-        <div className='opacity-80 h-fit border-b pb-4 '>
+      <div className='flex sticky flex-col gap-4'>
+        <div className='opacity-80 h-fit border-b dark:border-[#1f2a3c] pb-4 '>
           {/* navigation bar */}
           <div className=" flex flex-col w-full pt-2">            
-          <Link to="/" aria-label="My Feed" className="flex w-full px-4  gap-2 text-blue-600 font-semibold py-2 hover:bg-[#e5e7eb] border-r-2 border-r-blue-600">
+          <Link to="/" aria-label="My Feed" className="flex dark:hover:bg-[#324154] w-full px-4  gap-2 text-blue-600 font-semibold py-2 hover:bg-[#e5e7eb] border-r-2 border-r-blue-600">
             <svg fill='rgb(37 99 235)' className="h-5 w-5" viewBox="0 0 512 512"><path d="M464 32H144c-26.5 0-48 21.53-48 48v336c0 17.66-14.36 32-32 32s-32-14.34-32-32V112c0-8.8-7.16-16-16-16s-16 7.2-16 16v304c0 35.28 28.7 64 64 64h368c44.11 0 80-35.88 80-80V80c0-26.47-21.5-48-48-48zm16 368c0 26.47-21.53 48-48 48H119.4c5.5-9.4 8.6-20.3 8.6-32V80c0-8.81 7.2-16 16-16h320c8.8 0 16 7.19 16 16v320zm-208-96h-96c-8.8 0-16 7.2-16 16s7.156 16 16 16h96c8.844 0 16-7.156 16-16s-7.2-16-16-16zm160 0h-96c-8.8 0-16 7.2-16 16s7.156 16 16 16h96c8.844 0 16-7.156 16-16s-7.2-16-16-16zm-160 64h-96c-8.8 0-16 7.2-16 16s7.156 16 16 16h96c8.844 0 16-7.156 16-16s-7.2-16-16-16zm160 0h-96c-8.844 0-16 7.156-16 16s7.156 16 16 16h96c8.844 0 16-7.156 16-16s-7.2-16-16-16zM416 96H192c-17.7 0-32 14.3-32 32v96c0 17.67 14.33 32 32 32h224c17.67 0 32-14.33 32-32v-96c0-17.7-14.3-32-32-32zm0 128H192v-96h224v96z"></path></svg>
             <span className=''>My Feed</span>
           </Link>
-          <Link to="explore" aria-label="Explore" className="flex gap-2 px-4  active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
+          <Link to="explore" aria-label="Explore" className="flex gap-2 px-4 dark:hover:bg-[#324154] active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
             <svg className="h-5 w-5" viewBox="0 0 512 512"><path fill="currentColor" d="M232 256c0-13.3 10.7-24 24-24s24 10.7 24 24-10.7 24-24 24-24-10.7-24-24zm116.6-133.1c25-8.3 48.8 15.5 40.5 40.5l-48.9 146.5c-4.7 14.3-16 25.6-30.3 30.3l-146.5 48.9c-25 8.3-48.8-15.5-40.5-40.5l48.9-146.5c4.7-14.3 16-25.6 30.3-30.3l146.5-48.9zm10.1 30.4-146.5 48.8c-4.7 1.6-8.5 5.4-10.1 10.1l-48.8 146.5 146.5-48.8c4.7-1.6 8.5-5.4 10.1-10.1l48.8-146.5zM0 256C0 114.6 114.6 0 256 0s256 114.6 256 256-114.6 256-256 256S0 397.4 0 256zm256 224c123.7 0 224-100.3 224-224S379.7 32 256 32 32 132.3 32 256s100.3 224 224 224z"></path></svg>
             <span>Explore</span>
           </Link>
-          <Link to="drafts" aria-label="Drafts" className="flex gap-2 px-4  active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
+          <Link to="drafts" aria-label="Drafts" className="flex gap-2 px-4 dark:hover:bg-[#324154] active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
             <svg className="h-5 w-5" viewBox="0 0 384 512"><path fill="currentColor" d="M365.3 125.3 258.8 18.8C246.7 6.742 230.5 0 213.5 0H64C28.65 0 0 28.65 0 64l.006 384c0 35.35 28.65 64 64 64H320c35.35 0 64-28.65 64-64V170.5c0-17-6.7-33.2-18.7-45.2zM224 34.08c4.477 1.566 8.666 3.846 12.12 7.299l106.5 106.5c3.48 3.421 5.78 7.621 7.28 12.121H240c-8.8 0-16-7.2-16-16V34.08zM352 448c0 17.64-14.36 32-32 32H64c-17.64 0-32-14.36-32-32V64c0-17.64 14.36-32 32-32h128v112c0 26.5 21.5 48 48 48h112v256zM96.82 360.1a15.883 15.883 0 0 0-4.342 8.113l-12.16 60.79c-2.217 11.11 7.574 20.91 18.69 18.68l60.79-12.15a15.867 15.867 0 0 0 8.109-4.344l122.2-122.2c7.559-7.555 12.82-17.37 13.76-28.02 1.158-13.14-3.432-25.7-12.62-34.88l-8.172-8.176c-7.559-7.559-17.37-12.83-28.01-13.78-13.14-1.172-25.7 3.414-34.89 12.59L96.82 360.1zm51.98 45.2-32.72 6.539 6.543-32.71 86.22-86.23 26.18 26.18L148.8 405.3zm93.8-146.1c4.652-4.645 12.19-4.652 16.84.004l9.338 9.336c4.641 4.64 4.668 12.18-.004 16.84l-11.22 11.22-26.18-26.18L242.6 259.2z"></path></svg>
             <span>Drafts</span>
           </Link>
-          <Link to="bookmarks" aria-label="Bookmarks" className="flex gap-2 px-4  active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
+          <Link to="bookmarks" aria-label="Bookmarks" className="flex gap-2 px-4 dark:hover:bg-[#324154] active:text-blue-600 font-medium py-2 hover:bg-[#e5e7eb] hover:border-r-2 hover:border-r-blue-600">
             <svg className="h-5 w-5" viewBox="0 0 448 512"><path fill="currentColor" d="M448 368V48c0-26.51-21.5-48-48-48H80C35.82 0 0 35.82 0 80v368c0 35.35 28.66 64 64 64h368c8.844 0 16-7.156 16-16s-7.2-16-16-16h-16v-66.95c18.6-6.65 32-24.25 32-45.05zM320 32v174.7l-54.9-43.2c-2-2.3-5.6-3.5-9.1-3.5s-7.062 1.172-10 3.5l-54 43.2V32h128zm64 448H64c-17.64 0-32-14.36-32-32s14.36-32 32-32h320v64zm16-96H64c-11.71 0-22.55 3.389-32 8.9V80c0-26.51 21.49-48 48-48h80v208c0 6.156 3.531 11.75 9.062 14.42 5.562 2.672 12.09 1.891 16.94-1.922L256 196.5l69.1 56.02c3.8 2.28 7.3 3.48 10.9 3.48 2.344 0 4.719-.516 6.938-1.578C348.5 251.8 352 246.2 352 240V32h48c8.8 0 16 7.16 16 16v320c0 8.8-7.2 16-16 16z"></path></svg>
             <span>Bookmarks</span>
           </Link>
@@ -37,37 +37,37 @@ const LeftSidebar = () => {
         </div>
         <div className="px-4 ">
         <h5 className="flex gap-2 mb-4">
-          <span className='text-[#374151] font-semibold'>Trending tags</span>
-          <svg className="h-5 w-5" viewBox="0 0 24 24"><path d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"></path></svg>
+          <span className='text-[#374151] font-semibold dark:text-[#92a1b6]'>Trending tags</span>
+          <svg fill={document.documentElement.className==='dark' ? '#c5cfdb' : '#989fa9'} className="h-5 w-5" viewBox="0 0 24 24"><path d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"></path></svg>
         </h5>
         <div className=" flex flex-col gap-3">
-          <a href="/n/javascript" title="JavaScript" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6]">
+          <a href="/n/javascript" title="JavaScript" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">JavaScript</span>
-            <span title="144 new articles" class="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+144</span>
+            <span title="144 new articles" class="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] dark:bg-[#1e293b] dark:border-[#303f52] text-xs">+144</span>
           </a>
-          <a href="/n/web-development" title="Web Development" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6]">
+          <a href="/n/web-development" title="Web Development" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">Web Development</span>
-            <span title="100 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+100</span>
+            <span title="100 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs dark:bg-[#1e293b] dark:border-[#303f52]">+100</span>
           </a>
-          <a href="/n/reactjs" title="React" className="flex justify-between rounded-lg p-1 hover:bg-[#f3f4f6]">
+          <a href="/n/reactjs" title="React" className="flex justify-between rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">React</span>
-            <span title="78 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+78</span>
+            <span title="78 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs dark:bg-[#1e293b] dark:border-[#303f52]">+78</span>
           </a>
-          <a href="/n/beginners" title="Beginner Developers" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6]">
+          <a href="/n/beginners" title="Beginner Developers" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">Beginner Developers</span>
-            <span title="70 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+70</span>
+            <span title="70 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs dark:bg-[#1e293b] dark:border-[#303f52]">+70</span>
           </a>
-          <a href="/n/programming-blogs" title="Programming Blogs" className="flex justify-between rounded-lg p-1 hover:bg-[#f3f4f6] ">
+          <a href="/n/programming-blogs" title="Programming Blogs" className="flex justify-between rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b] ">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">Programming Blogs</span>
-            <span title="49 new articles" class="border rounded-lg py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+49</span>
+            <span title="49 new articles" class="border rounded-lg py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs dark:bg-[#1e293b] dark:border-[#303f52]">+49</span>
           </a>
-          <a href="/n/blogswithcc" title="BlogsWithCC" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6]">
+          <a href="/n/blogswithcc" title="BlogsWithCC" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className="overflow-hidden text-ellipsis whitespace-nowrap text-sm opacity-70">BlogsWithCC</span>
-            <span title="48 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs">+48</span>
+            <span title="48 new articles" className="border rounded-xl py-1 px-2 font-bold opacity-70 bg-[#f3f4f6] text-xs dark:bg-[#1e293b] dark:border-[#303f52]">+48</span>
           </a>
-          <a href="/explore/tags" className="flex gap-3 items-center py-1 rounded-lg p-1 hover:bg-[#f3f4f6] ">
-            <span className='text-sm text-[#374151] font-medium'>See all</span>
-            <svg className="h-3 w-3" viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>
+          <a href="/explore/tags" className="flex gap-3 items-center py-1 rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
+            <span className='text-sm text-[#374151] font-medium dark:text-[#c5cfdb] '>See all</span>
+            <svg className="h-3 w-3" fill={document.documentElement.className==='dark' ? '#c5cfdb' : ''} viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>
           </a>
         </div>
         </div>

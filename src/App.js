@@ -15,13 +15,16 @@ import EditProfile from "./components/EditProfile";
 import CreateNewArticle from "./pages/CreateNewArticle";
 import LoginSignup from "./pages/LoginSignup";
 import Article from "./pages/Article";
-
+import NotificationsPopup from "./components/NotificationsPopup";
+import {useState} from 'react'
 
 
 function App() {
-  
+  const [notificationBtn, setNotificationBtn] = useState(true)
+
   return (
-    <div className="App flex flex-col gap-5 h-screen bg-[#fafbff]">
+    
+    <div className="App dark:bg-[#000000] flex flex-col gap-5 h-full bg-[#fafbff] ">
       <Navbar />
       <Routes>
         <Route path='settings' element={<AccountSettings />}>
@@ -44,7 +47,11 @@ function App() {
         <Route path="/onboard" element={<LoginSignup/>} />
         <Route path="article" element={<Article/>} />
       </Routes>
+      <NotificationsPopup trigger={notificationBtn} setTrigger={setNotificationBtn}>
+        <p>just for testing</p>
+      </NotificationsPopup>
     </div>
+    
   );
 }
 
