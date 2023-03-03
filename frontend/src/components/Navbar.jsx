@@ -1,10 +1,12 @@
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect, useContext} from 'react'
 import myPicture from '../assets/img/myPicture.jpg'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
+import AuthContext from '../context/AuthContext'
 
 
 const Navbar = () => {
+  let {logoutUser} = useContext(AuthContext)
   const [theme, setTheme] = useState('light')
   const themeToggle = ()=>{
   if (document.documentElement.className === 'dark'){
@@ -106,10 +108,19 @@ const Navbar = () => {
                 
                 
               </div>
-              <a href='0' class="py-4 px-6 text-[#ef4444] flex gap-2 items-center hover:bg-[#e5e7eb]">
-                <svg fill='#ef4444' class="w-5 h-5" viewBox="0 0 512 512"><path d="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z"></path></svg>
-                <span>Log out</span>
-              </a>
+              { localStorage.getItem('accessToken') ? 
+                <button onClick={logoutUser} class="py-4 px-6 text-[#ef4444] flex gap-2 items-center hover:bg-[#e5e7eb]">
+                  <svg fill='#ef4444' class="w-5 h-5" viewBox="0 0 512 512"><path d="M48 64h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h132c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48zm279 19.5l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l132 131.4H172c-6.6 0-12 5.4-12 12v10c0 6.6 5.4 12 12 12h279.9L320 404.4c-4.7 4.7-4.7 12.3 0 17l7.1 7.1c4.7 4.7 12.3 4.7 17 0l164.5-164c4.7-4.7 4.7-12.3 0-17L344 83.5c-4.7-4.7-12.3-4.7-17 0z"></path></svg>
+                  <span className=' font-semibold '>Log out</span>
+                </button>
+              :
+                <Link to='/onboard' class="py-4 px-6 text-blue-600 flex gap-2 items-center hover:bg-[#e5e7eb]">
+                  <svg fill='#ef4444' class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+
+                  <span className=' font-semibold '>Log in</span>
+                </Link>
+            }
+              
         </div>
         </div>
   

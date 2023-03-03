@@ -1,7 +1,16 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
 import LeftSidebar from '../components/LeftSidebar'
 import MyPicture from '../assets/img/myPicture.jpg'
+import AuthContext from '../context/AuthContext'
+import Moment from 'react-moment';
+import {Link} from 'react-router-dom'
+
+
 const Profile = () => {
+    let {userDetails, userData} = useContext(AuthContext)
+    useEffect(() => {
+        userDetails();
+    }, [])
   return (
     <div className='grid grid-cols-12 gap-6'>
         <LeftSidebar/>
@@ -11,15 +20,17 @@ const Profile = () => {
                 <div className='mb-5 flex gap-8 flex-col md:flex-row'>
                     <img className='rounded-full w-24 h-24' src={MyPicture} alt="" />
                     <div className='text-[#111827]'>
-                        <h1 className='text-3xl font-bold'>Zakaria Abdessamed Brahimi</h1>
-                        <p className='mt-3 text-lg'>I am Django Back-end Developer looking for real-world opportunities</p>
+                        <h1 className='text-3xl font-bold'>{userData['fullname']}</h1>
+                        <p className='mt-3 text-lg'>{userData['profile_tagline']}</p>
                     </div>
                 </div>
                 <div className='mt-2 flex gap-4'>
-                    <button className='text-white flex items-center gap-2 py-2 px-5 w-fit h-fit bg-blue-600 border rounded-full'>
-                        <svg fill='white' className="w-4 h-4" viewBox="0 0 512 512"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zM164.686 347.313c6.249 6.249 16.379 6.248 22.627 0L368 166.627l30.059 30.059L174 420.745V386h-48v-48H91.255l224.059-224.059L345.373 144 164.686 324.687c-6.249 6.248-6.249 16.378 0 22.626zm-38.539 121.285l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path></svg>
-                            <span>Edit</span>
-                    </button>
+                    <Link to='/settings'>
+                        <button className='text-white flex items-center gap-2 py-2 px-5 w-fit h-fit bg-blue-600 border rounded-full'>
+                            <svg fill='white' className="w-4 h-4" viewBox="0 0 512 512"><path d="M493.255 56.236l-37.49-37.49c-24.993-24.993-65.515-24.994-90.51 0L12.838 371.162.151 485.346c-1.698 15.286 11.22 28.203 26.504 26.504l114.184-12.687 352.417-352.417c24.992-24.994 24.992-65.517-.001-90.51zM164.686 347.313c6.249 6.249 16.379 6.248 22.627 0L368 166.627l30.059 30.059L174 420.745V386h-48v-48H91.255l224.059-224.059L345.373 144 164.686 324.687c-6.249 6.248-6.249 16.378 0 22.626zm-38.539 121.285l-58.995 6.555-30.305-30.305 6.555-58.995L63.255 366H98v48h48v34.745l-19.853 19.853zm344.48-344.48l-49.941 49.941-82.745-82.745 49.941-49.941c12.505-12.505 32.748-12.507 45.255 0l37.49 37.49c12.506 12.506 12.507 32.747 0 45.255z"></path></svg>
+                                <span>Edit</span>
+                        </button>
+                    </Link>
                     <button className=' w-fit h-fit font-medium p-3 rounded-full border hover:bg-[#e5e7eb]'>
                         <svg fill='' class="w-5 h-5" viewBox="0 0 500 500"><path d="M432.31 135.261h-47.672a17.595 17.595 0 0 0-12.442 30.039c3.3 3.3 7.775 5.154 12.442 5.154h30.075v294.353H86.193V170.454h30.085a17.595 17.595 0 0 0 12.442-30.039 17.595 17.595 0 0 0-12.442-5.154H68.596A17.61 17.61 0 0 0 51 152.858v329.546A17.597 17.597 0 0 0 68.596 500H432.31a17.586 17.586 0 0 0 17.596-17.596V152.858a17.597 17.597 0 0 0-17.596-17.597Z" fill="inherit"></path><path d="M204.521 95.101a17.553 17.553 0 0 0 12.81-5.53l26.083-27.652v206.13a17.595 17.595 0 0 0 30.039 12.442c3.3-3.3 5.154-7.775 5.154-12.442V61.809L304.75 89.59a17.609 17.609 0 0 0 12.332 5.711 17.6 17.6 0 0 0 16.733-10.43 17.61 17.61 0 0 0 .301-13.588 17.603 17.603 0 0 0-3.755-5.825L274.997 6.717a18.147 18.147 0 0 0-1.809-2.011A17.51 17.51 0 0 0 263.223.06h-.503l-.955-.06h-2.283c-.271 0-.543.06-.814.09-.272.03-.593.08-.885.141l-.845.171-.824.221c-.282.08-.553.161-.825.262-.271.1-.543.18-.804.291l-.784.332-.785.382-.744.413-.744.442-.724.503-.663.503c-.252.2-.493.402-.724.613l-.413.352-.17.18c-.232.222-.443.453-.664.695-.221.241-.372.392-.543.593-.171.201-.302.382-.453.583L191.771 65.49a17.59 17.59 0 0 0-3.321 18.98 17.588 17.588 0 0 0 16.071 10.632Z" fill="inherit"></path></svg>
                     </button>
@@ -27,15 +38,26 @@ const Profile = () => {
             </div>
             <div className='px-4 py-7 mb-5 border opacity-60 rounded-lg flex gap-3 items-center md:justify-center'>
                 <svg className="w-4 h-4" viewBox="0 0 448 512"><path d="M400 64h-48V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H128V12c0-6.6-5.4-12-12-12h-8c-6.6 0-12 5.4-12 12v52H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48zM48 96h352c8.8 0 16 7.2 16 16v48H32v-48c0-8.8 7.2-16 16-16zm352 384H48c-8.8 0-16-7.2-16-16V192h384v272c0 8.8-7.2 16-16 16zM148 320h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 96h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm-96 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm192 0h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12z"></path></svg>
-                <p className=''>Member Since Sep, 2022</p>
+                <span>Member Since</span>
+                <Moment fromNow>{userData['date_joined']}</Moment> 
+                {/*TODO: there are -in- added auto to after since --> remove it later inshallah*/}
             </div>
             <div className='px-4 py-7 mb-5 border rounded-lg flex flex-col gap-3 opacity-80 min-h-[30vh]'>
                 <p className=' text-xl font-bold mb-3'>About Me</p>
-                <button className='flex gap-2 py-1 px-3 font-medium border rounded-full w-fit hover:bg-[#e5e7eb]'>
-                    <svg class="w-5 h-5" viewBox="0 0 384 512"><path d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg>
-                    <span className='opacity-90'>Add Bio</span>
-                </button>
-                <p className='opacity-75'>Your bio is empty. Tell the world who you are by writing a short description about you.</p>
+                {!userData['bio'] &&
+                    <Link to='/settings#bio'>
+                        <button className='flex gap-2 py-1 px-3 font-medium border rounded-full w-fit hover:bg-[#e5e7eb]'>
+                            <svg class="w-5 h-5" viewBox="0 0 384 512"><path d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg>
+                            <span className='opacity-90'>Add Bio</span>
+                        </button>
+                    </Link>
+                }
+                
+                
+                {userData['bio'] ? 
+                    <p>{userData['bio']}</p>
+                        : 
+                    <p className='opacity-75'>Your bio is empty. Tell the world who you are by writing a short description about you.</p>}
             </div>
             <div className='px-4 py-7 mb-5 border rounded-lg flex flex-col gap-3 opacity-80 min-h-[30vh]'>
                 <p className=' text-xl font-bold mb-3'>My Tech Stack</p>
@@ -49,10 +71,16 @@ const Profile = () => {
             </div>
             <div className='px-4 py-7 mb-5 border rounded-lg flex flex-col gap-3 opacity-80 min-h-[30vh]'>
                 <p className=' text-xl font-bold mb-3'>I am available for</p>
-                <button className='flex gap-2 py-1 px-3 font-medium border rounded-full w-fit hover:bg-[#e5e7eb]'>
-                    <svg class="w-5 h-5" viewBox="0 0 384 512"><path d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg>
-                    <span className='opacity-90'>Add Available for</span>
-                </button>
+
+
+                {!userData['available_for'] &&
+                    <Link to='/settings#availableFor'>
+                    <button className='flex gap-2 py-1 px-3 font-medium border rounded-full w-fit hover:bg-[#e5e7eb]'>
+                        <svg class="w-5 h-5" viewBox="0 0 384 512"><path d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg>
+                        <span className='opacity-90'>Add Available for</span>
+                    </button>
+                </Link>
+                }
             </div>
             <footer className='flex flex-col items-center justify-center gap-4 mt-16'>
                 <div class="flex flex-col items-center justify-center gap-5 mb-8 text-[#4b5563]">

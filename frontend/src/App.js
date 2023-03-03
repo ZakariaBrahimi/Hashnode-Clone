@@ -16,43 +16,65 @@ import CreateNewArticle from "./pages/CreateNewArticle";
 import LoginSignup from "./pages/LoginSignup";
 import Article from "./pages/Article";
 import NotificationsPopup from "./components/NotificationsPopup";
-import {useState} from 'react'
+import {useState, useRef} from 'react'
+import {AuthProvider} from './context/AuthContext'
+import PrivateRoute from './utils/PrivateRoute'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PasswordReset from "./pages/PasswordReset";
+import PasswordChange from "./pages/PasswordChange";
 
 
 function App() {
   const [notificationBtn, setNotificationBtn] = useState(true)
-
+  
   return (
-    
-    <div className="App dark:bg-[#000000] flex flex-col gap-5 h-full bg-[#fafbff] ">
+    <AuthProvider>
+    <div className="App dark:bg-[#000000] flex flex-col gap-5 bg-[#fafbff] ">
       <Navbar />
       <Routes>
-        <Route path='settings' element={<AccountSettings />}>
-          <Route path='delete-account' element={<DeleteAccount />} />
-          <Route path='' element={<EditProfile />} />
-        </Route>
-        
-        <Route path='/' element={<HomePage />}>
-          <Route path='feature' element={<FeaturedArticles />} />
-          <Route path='recent' element={<RecentArticles />} />
-          <Route path='' element={<Personalized />} />
-        </Route>
-        <Route path="" element={<LeftRightSides />}>
-          <Route path='bookmarks' element={<Bookmarks />} />
-          <Route path='drafts' element={<Drafts />} />
-        </Route>
-        <Route path='explore' element={<Explore />} />
-        <Route path="profile" element={<Profile/>} />
-        <Route path="/create-story" element={<CreateNewArticle/>} />
-        <Route path="/onboard" element={<LoginSignup/>} />
-        <Route path="article" element={<Article/>} />
-      </Routes>
-      <NotificationsPopup trigger={notificationBtn} setTrigger={setNotificationBtn}>
-        <p>just for testing</p>
-      </NotificationsPopup>
+          <Route path='settings' element={<PrivateRoute><AccountSettings /></PrivateRoute>}>
+            <Route path='delete-account' element={<PrivateRoute><DeleteAccount /></PrivateRoute>} />
+            <Route path='' element={<PrivateRoute><EditProfile /></PrivateRoute>} />
+            <Route path='password-change' element={<PrivateRoute><PasswordChange /></PrivateRoute>} />
+          </Route>
+          <Route path='/' element={<HomePage />}>
+            <Route path='feature' element={<FeaturedArticles />} />
+            <Route path='recent' element={<RecentArticles />} />
+            <Route path='' element={<Personalized />} />
+          </Route>
+          <Route path="" element={<LeftRightSides />}>
+            <Route path='bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>} />
+            <Route path='drafts' element={
+              <PrivateRoute>
+                <Drafts />
+              </PrivateRoute>
+            } />
+          </Route>
+          <Route path='explore' element={<Explore />} />
+          <Route path="profile" element={<PrivateRoute><Profile/></PrivateRoute>} />
+          <Route path="password-reset" element={<PasswordReset/>} />
+          <Route path="create-story" element={<PrivateRoute><CreateNewArticle/></PrivateRoute>} />
+          <Route path="onboard" element={<LoginSignup />} />
+          <Route path="article/:article_id" element={<Article/>} />
+        </Routes>
+        <ToastContainer
+          position="top-left"
+          autoClose={6000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />      
+
+
+      
     </div>
-    
+    </AuthProvider>
   );
 }
-
 export default App;
