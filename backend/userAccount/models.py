@@ -103,13 +103,13 @@ class CustomUser(AbstractUser):
     # Required fields when create a super user using createsuperuser management command
     # Has no effect in other parts of Django, like creating a user in the admin
     # Should not contain the USERNAME_FIELD or password(it's contained by default)
-    REQUIRED_FIELDS = ['first_name', 'last_name'] 
+    REQUIRED_FIELDS = ['fullname',] 
     
     objects = CustomUserManager()
     
     def __str__(self):
-        if self.first_name:
-            return self.first_name + ' ' + self.last_name
+        if self.fullname:
+            return self.fullname
         return self.email
 
 # error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username')

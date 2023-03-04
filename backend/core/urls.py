@@ -11,7 +11,6 @@ from django.shortcuts import render, redirect
 
 class AccountConfirmEmailTemplateView(TemplateView):
     template_name='verify_email.html'
-    print('AccountConfirmEmailTemplateView')
     def get(self,request, *args, **kwargs):
         print(kwargs['key'])
         r = requests.post('http://127.0.0.1:8000/auth/registration/verify-email/', data={'key': kwargs['key']})
@@ -48,24 +47,3 @@ urlpatterns = [
         PasswordResetConfirmTemplateView.as_view(template_name="password_reset_confirm.html"),
         name='password_reset_confirm'),
     ]
-
-
-
-
-"""
-browsable API login and Logout dubctionality
-    - /api-auth/ --> login/ logout
-/auth/:
-    - password reset
-    - password reset confirm
-    - login
-    - logout
-    - user details
-    - password change
-    - token verify
-    - token refresh
-
-dj-rest-auth/registration/
-
-"""
-

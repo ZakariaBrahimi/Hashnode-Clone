@@ -68,13 +68,13 @@ export const AuthProvider = ({children})=>{
             }
         }
         ).then((response)=>{
+            console.log(response.data)
             window.localStorage.setItem('accessToken', response.data['access_token'])
             window.localStorage.setItem('user', JSON.stringify(response.data['user']))
             setUser(response.data['user'])
             setAuthToken(response.data['access_token'])
-            navigate('/profile')
-            notifySuccess('logged in successfully')
-            
+            navigate('profile')
+            notifySuccess('logged in successfully') 
         }).catch((error)=>{
             console.log(error)
             let errorMessage = error.response.data    
@@ -127,7 +127,6 @@ export const AuthProvider = ({children})=>{
         }).catch((error)=>{
             let data = error.response.data
             setAuthNotifications(data)
-            
         })
     }
 
@@ -176,14 +175,12 @@ export const AuthProvider = ({children})=>{
         let user = JSON.parse(localStorage.getItem('user'))
         let access_token = localStorage.getItem('accessToken')
         
-        // console.log(user['pk'])
         axiosAPI({                                                                                                                                                                                                                                                                                                    
             url: `/users/${user['pk']}`,
             method: 'get',
             headers:{
                 'Authorization': `Bearer ${access_token}`
             },
-            
         }
         ).then((response)=>{
             // console.log('response')

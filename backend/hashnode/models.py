@@ -15,7 +15,7 @@ class Article(models.Model):
 	content    = models.TextField()
 	subtitle   = models.CharField(max_length=250, blank=True)
 	title      = models.CharField(max_length=250)
-	cover      = models.ImageField(upload_to="images/articles_covers/") # , default='images/articles_covers/default.jpg'
+	cover      = models.ImageField(upload_to="media/images/articles_covers/") # , default='images/articles_covers/default.jpg'
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	slug = models.SlugField(max_length=250, blank=True, null=False)

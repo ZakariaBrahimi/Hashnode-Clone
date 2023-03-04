@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     
     # By default dj-rest-auth uses Django’s Token-based authentication,
     # And we are going to use JWT authentication in this project
-    #'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
     
     
 ]
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Password validation
@@ -161,6 +161,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 
-# REST_AUTH_SERIALIZERS = {
-#     # 'USER_DETAILS_SERIALIZER': m.api.serializers.UserSerializer,
-# }
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'hashnode.api.serializers.UserSerializer',
+}
