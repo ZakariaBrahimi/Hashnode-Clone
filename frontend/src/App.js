@@ -39,9 +39,9 @@ function App() {
             <Route path='password-change' element={<PrivateRoute><PasswordChange /></PrivateRoute>} />
           </Route>
           <Route path='/' element={<HomePage />}>
-            <Route path='feature' element={<FeaturedArticles />} />
-            <Route path='recent' element={<RecentArticles />} />
-            <Route path='' element={<Personalized />} />
+            {/* <Route path='feature' element={<FeaturedArticles />} /> */}
+            {/* <Route path='personalized' element={<Personalized />} /> */}
+            <Route path='' element={<RecentArticles />} />
           </Route>
           <Route path="" element={<LeftRightSides />}>
             <Route path='bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>} />

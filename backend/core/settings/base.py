@@ -128,7 +128,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     )
-
+}
+REST_AUTH = {
+    'USE_JWT': True,
+    'USER_DETAILS_SERIALIZER': 'hashnode.api.serializers.UserDetailsSerializer',
 }
 # By default dj-rest-auth uses Django’s Token-based authentication, 
 # Which are limited to one per user. This does not facilitate securely signing in from multiple devices
@@ -158,9 +161,3 @@ OLD_PASSWORD_FIELD_ENABLED = True
 #     'http://127.0.0.1:3000/',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
-
-
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'hashnode.api.serializers.UserSerializer',
-}

@@ -42,11 +42,22 @@ def user_delete(request):
 #Article
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def recentArticles(request):
 	recent_articles = Article.objects.filter(status='published').order_by('-updated_at')
 	recent_articles_serializer = ArticleSerializer(recent_articles, many=True)
+	print(recent_articles)
 	return Response(recent_articles_serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def personalizedArticles(request):
+	return Response()
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def FeatureArticles(request):
+	return Response()
 
 @api_view(['GET'])
 def article_details(request,article_id):

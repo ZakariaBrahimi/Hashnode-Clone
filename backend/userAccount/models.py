@@ -80,7 +80,7 @@ class CustomUser(AbstractUser):
     username = None
     first_name = None
     last_name  = None
-    fullname  = models.CharField(max_length=100)
+    fullname  = models.CharField(max_length=100, verbose_name='Full Name')
     bio = models.TextField(blank=True)
     profile_tagline = models.CharField(max_length=100, blank=True)
     follow = models.ManyToManyField(settings.AUTH_USER_MODEL, symmetrical=False, related_name='following')
@@ -94,7 +94,7 @@ class CustomUser(AbstractUser):
     github = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
-    img = models.ImageField(upload_to="images/users_images/", blank=True) # , default='images/articles_covers/default.jpg'
+    img = models.ImageField(upload_to="images/users_images/", blank=True, verbose_name='User Image') # , default='images/articles_covers/default.jpg'
 
 
     

@@ -30,11 +30,11 @@ urlpatterns = [
     path('hashnode/api/', include('hashnode.api.urls')),
     
     # Optional - browsable API login and Logout functionalities
-    path('api-auth', include('rest_framework.urls')),
+    # path('api-auth', include('rest_framework.urls')),
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
-    #path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # Verify email 
     re_path(
         r'^account-confirm-email/(?P<key>[-:\w]+)/$', AccountConfirmEmailTemplateView.as_view()

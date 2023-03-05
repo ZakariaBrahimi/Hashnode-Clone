@@ -103,15 +103,13 @@ const Article = () => {
     try{
       let response = await axiosAPI({
         method: 'get',
-        url: `articles/${article_id}`, // Not defined yet - get it from the url (usePrams)
+        url: `articles/${article_id}`,
         headers:{'Content-Type': 'application/json'}
       })
-      console.log('working')
       setArticleDetails(response.data)
     }catch(error){
       console.log(error)
     }
-    
   }
 
   useEffect(() => {
@@ -193,7 +191,7 @@ const Article = () => {
                 <svg fill='#374151' className="h-5 w-5" viewBox="0 0 1000 1000"><path fill="#374151" fill-rule="evenodd" d="M153.906 69.336c-19.14 0-34.57 15.43-34.57 34.57v766.602l277.148-184.766 277.149 184.766V519.531c0-19.14 15.429-34.57 34.57-34.57s34.57 15.43 34.57 34.57V1000L396.484 769.141 50 1000V103.906C50 46.484 96.68 0 153.906 0h277.149c19.14 0 34.57 15.43 34.57 34.57s-15.43 34.57-34.57 34.57H153.906v.196ZM777.539 0c19.141 0 34.57 15.43 34.57 34.57v138.477c0 19.14-15.429 34.57-34.57 34.57H639.062c-19.14 0-34.57-15.43-34.57-34.57 0-19.141 15.43-34.57 34.57-34.57h103.907V34.57c0-19.14 15.429-34.57 34.57-34.57Z" clip-rule="evenodd"></path><path fill="inherit" fill-rule="evenodd" d="M742.969 173.242c0-19.14 15.43-34.57 34.57-34.57h138.477c19.14 0 34.57 15.43 34.57 34.57 0 19.141-15.43 34.571-34.57 34.571H812.11v103.906c0 19.14-15.43 34.57-34.571 34.57-19.14 0-34.57-15.43-34.57-34.57V173.242Z" clip-rule="evenodd"></path></svg>
               </button>
             </div>
-            {(user && user.pk ==  articleDetails?.author?.id) ?
+            {(user && (user.pk ===  articleDetails?.author?.id)) ?
               <div className='relative'>
                 <button ref={moreInfoBtnRef} onClick={()=>setMoreInfo(!moreInfo)} className='flex gap-2 items-center py-2 px-3 font-medium rounded-full border text-sm hover:bg-[#e5e7eb]'>
                   <svg fill='#374151' class="w-5 h-5" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm216 248c0 118.7-96.1 216-216 216-118.7 0-216-96.1-216-216 0-118.7 96.1-216 216-216 118.7 0 216 96.1 216 216zm-207.5 86.6l115-115.1c4.7-4.7 4.7-12.3 0-17l-7.1-7.1c-4.7-4.7-12.3-4.7-17 0L256 303l-99.5-99.5c-4.7-4.7-12.3-4.7-17 0l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l115 115.1c4.8 4.6 12.4 4.6 17.1-.1z"></path></svg>

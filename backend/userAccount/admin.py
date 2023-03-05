@@ -14,7 +14,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('fullname', 'email', 'is_staff', 'is_active',)
     
     fieldsets = (
-        ('User Information', {'fields': ('fullname', 'email', 'password', 'bio', 'profile_tagline')}),
+        ('User Information', {'fields': ('fullname', 'email', 'password', 'bio', 'profile_tagline', 'available_for', 'location', 'img')}),
+        ('Social Accounts', {'fields': ('stackOverflow', 'facebook', 'linkedin', 'youtube', 'website', 'github', 'twitter', 'instagram',)}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
     )
     add_fieldsets = (

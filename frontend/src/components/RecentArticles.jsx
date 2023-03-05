@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { Outlet } from 'react-router-dom'
 import ArticleCard from './ArticleCard'
-import HeadSection from './HeadSection'
 import { axiosAPI } from '../axios'
+import ArticleCardSkeltons from './skeltons/ArticleCardSkeltons'
 
 
 const RecentArticles = () => {
   const [recentArticlesData, setRecentArticlesData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const fetchRecentArticles = async () => {
     try{
         const response = await axiosAPI({
@@ -14,30 +14,26 @@ const RecentArticles = () => {
             url: 'articles/recent',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             }
         })
+        //TODO: the time of loading is a shoooort, test it later with many articles
+        // setTimeout(()=>{setIsLoading(false); setRecentArticlesData(response.data)}, 100000)
+        setIsLoading(false)
         setRecentArticlesData(response.data)
     }catch(error){}
   }
   useEffect(()=>{
     fetchRecentArticles()
   }, [])
-
+  if (isLoading) return <ArticleCardSkeltons />
   return (
-    <>
-    
-    <div className='rounded-b-lg '>
+    <div className={`rounded-b-lg`} >
+      {/* {isLoading && <ArticleCardSkeltons />} */}
         {recentArticlesData.map((article, index)=>{ 
-            
-            return (<>
-              <ArticleCard article={article} key={article?.id} />
-            </>)
-                        
+            return <ArticleCard isLoading={isLoading} article={article} key={article?.id} />         
         })}
     </div>
-    </>
+
   )
 }
-
 export default RecentArticles

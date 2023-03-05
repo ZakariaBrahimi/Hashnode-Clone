@@ -4,7 +4,7 @@ import {useContext} from 'react'
 
 
 const PrivateRoute = ({children})=>{
-	const {user} = useContext(AuthContext)
-	return user ? children : <Navigate to="/onboard" replace/>
+	const {authToken} = useContext(AuthContext)
+	return authToken ? children : <Navigate to="/onboard" replace/>
 }
 export default PrivateRoute;

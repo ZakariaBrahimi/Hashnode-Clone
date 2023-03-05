@@ -2,7 +2,6 @@ import {createContext, useState, useEffect} from 'react'
 import {axiosAuth, axiosAPI} from '../axios'
 import {redirect, useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import NotificationsPopup from '../components/NotificationsPopup'
 import {toast } from 'react-toastify';
 
 
@@ -43,9 +42,10 @@ export const AuthProvider = ({children})=>{
         progress: undefined,
         theme: "colored",
     });
-	const [user, setUser] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
-	const [authToken, setAuthToken] = useState(()=>localStorage.getItem('user') ? window.localStorage.getItem('accessToken') : null)
+	// const [user, setUser] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
+	const [authToken, setAuthToken] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
     const [authNotifications, setAuthNotifications] = useState([])
+    const [userData, setUserData] = useState({})
 
     useEffect(()=>{
         Object.values(authNotifications).map((notification)=>{
@@ -68,12 +68,10 @@ export const AuthProvider = ({children})=>{
             }
         }
         ).then((response)=>{
-            console.log(response.data)
             window.localStorage.setItem('accessToken', response.data['access_token'])
-            window.localStorage.setItem('user', JSON.stringify(response.data['user']))
-            setUser(response.data['user'])
+            setUserData(response.data['user'])
             setAuthToken(response.data['access_token'])
-            navigate('profile')
+            navigate('/profile')
             notifySuccess('logged in successfully') 
         }).catch((error)=>{
             console.log(error)
@@ -139,7 +137,7 @@ export const AuthProvider = ({children})=>{
         ).then((response)=>{
             window.localStorage.removeItem('accessToken')
             window.localStorage.removeItem('user')
-            setUser(null)
+            // setUser(null)
             setAuthToken(null)
             // It's recommended to use redirect in loaders and actions rather than useNavigate in your components, 
             // When the redirect is in response to data
@@ -169,7 +167,7 @@ export const AuthProvider = ({children})=>{
             console.log(error)
         })
     }
-    const [userData, setUserData] = useState({})
+    
 
     const userDetails = ()=>{
         let user = JSON.parse(localStorage.getItem('user'))
@@ -231,7 +229,7 @@ export const AuthProvider = ({children})=>{
 
 
 	let contextData = {
-		user: user,
+		// user: user,
         userData:userData,
 		authToken: authToken,
 		loginUser: loginUser,
@@ -239,7 +237,7 @@ export const AuthProvider = ({children})=>{
 		googleAuth:googleAuth,
         RegisterUser:RegisterUser,
         passwordReset:passwordReset,
-        userDetails,userDetails,
+        // userDetails,userDetails,
         passwordChangeHandl:passwordChangeHandl,
 	}
 	return (
