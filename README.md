@@ -1,8 +1,8 @@
 
 # Hashnode Clone
 
-Hashnode Fullstack Clone using Django Rest Framework with Reactjs.
-
+[Hashnode](https://hashnode.com/) Fullstack Clone using Django Rest Framework with Reactjs.
+* **About Hashnode::** It's a free blogging platform and community of developers that enables you to publish articles on your domain with a custom blog page.
 ## Demo
 
 See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration of the website.
