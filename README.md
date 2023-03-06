@@ -79,9 +79,12 @@ Start the server
 
 
 ## Tech Stack
-
-**Client:** React, Redux, TailwindCSS
-
-**Server:** Node, Express
+- **Programming languages** — Python, JavaScript
+- **Backend Framework** — Django Rest Framework
+- **Frontend Framework** — React.js
+- **CSS Framework** — Tailwind CSS
+- **SQL data storage** — PostgreSQL
+- **Hosting** — Vercel (Client) and Render(Server).
+- **Others** — Axios. 
 
 
