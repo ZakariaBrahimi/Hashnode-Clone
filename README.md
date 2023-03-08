@@ -10,10 +10,16 @@ See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration 
 
 ## Features
 
-- Light/dark mode toggle
+- Light/dark mode toggle based on User preferances
 - Live previews
 - Fullscreen mode
 - Cross platform
+- **User Management:** - User Registration with activation
+                       - Login/Logout
+                       - Retrieve/Update the Django User model
+                       - Password change
+                       - Password reset via e-mail
+                       - Social Media authentication(using only google account)
 
 
 ## Environment Variables
@@ -84,7 +90,7 @@ Start the server
 - **Frontend Framework** — React.js
 - **CSS Framework** — Tailwind CSS
 - **SQL data storage** — PostgreSQL
-- **Hosting** — Vercel (Client) and Render(Server).
-- **Others** — Axios. 
+- **Hosting** — [Vercel](http://vercel.com/) (Client) and [Render](https://render.com/) (Server).
+- **Others** — Axios, [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/)
 
 

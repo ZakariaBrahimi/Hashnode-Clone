@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+# Hashnode Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Hashnode](https://hashnode.com/) Fullstack Clone using Django Rest Framework with Reactjs.
+* **About Hashnode:** It's a free blogging platform and community of developers that enables you to publish articles on your domain with a custom blog page. Hashnode allows you to completely customise your blog page with built-in features, widgets and integrations.
+## Demo
 
-## Available Scripts
+See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration of the website.
 
-In the project directory, you can run:
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Light/dark mode toggle based on User preferances**
+- **Live previews**
+- **Fullscreen mode**
+- **Cross platform**
+- **User Management:** 
+  - User Registration with E-mail activation
+  - Login/Logout
+  - Password change
+  - Password reset via e-mail
+  - Social Media authentication(using only google account)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Run Locally  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Clone the project  
 
-### `npm run build`
+~~~bash  
+  git clone https://github.com/ZakariaBrahimi/Hashnode-Clone.git my-project
+~~~
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Go to the project directory  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+~~~bash  
+  cd my-project
+~~~
+* First of all, you should run both of servers frontend and backend
+### Backend:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Go to the **backend** project directory
+~~~bash  
+  cd backend
+~~~
+Install all python packages in requirements.txt file
+~~~bash  
+  pip install -r requirements.txt
+~~~
+Start django project
+~~~bash  
+  django-admin startproject project-name .
+~~~
+Create two apps
+~~~bash  
+  python manage.py startapp app1
+  python manage.py startapp app2
+~~~
 
-### `npm run eject`
+Migrate the database and Start the server
+~~~bash  
+  python manage.py makemigrations
+  python manage.py migrate
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  python manage.py runserver
+~~~
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Install dependencies  
+~~~bash  
+npm install
+~~~
 
-## Learn More
+#### Environment Variables  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To run this project, you will need to add the following environment variables to your .env file  
+~~~bash  
+REACT_APP_API_URL  = http://127.0.0.1:8000/hashnode/api/
+REACT_APP_AUTH_URL = http://127.0.0.1:8000/auth/
+~~~
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start the server  
+~~~bash  
+npm run start
+~~~
 
-### Code Splitting
+## Tech Stack
+- **Programming languages** — Python, JavaScript
+- **Backend Framework** — Django Rest Framework
+- **Frontend Framework** — React.js
+- **CSS Framework** — Tailwind CSS
+- **SQL data storage** — PostgreSQL
+- **Hosting** — [Vercel](http://vercel.com/) (Client) and [Render](https://render.com/) (Server).
+- **Others** — [Axios](https://axios-http.com/docs/intro), [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Lessons Learned  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+What did you learn while building this project? What challenges did you face and how did you overcome t
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Acknowledgements  
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+- [Awesome README](https://github.com/matiassingers/awesome-readme)
+- [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
