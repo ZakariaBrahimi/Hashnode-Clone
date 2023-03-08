@@ -65,7 +65,10 @@ Migrate the database and Start the server
 
 
 ### Frontend:
-
+Go to the **frontend** project directory
+~~~bash  
+  cd frontend
+~~~
 Install dependencies  
 ~~~bash  
 npm install
