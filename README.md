@@ -14,6 +14,7 @@ See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration 
 - **Fullscreen mode**
 - **Cross platform**
 - **User Management:** 
+  - Custom User Model (AbstractBaseUser)
   - User Registration with E-mail activation
   - Login/Logout
   - Password change
@@ -34,7 +35,7 @@ Go to the project directory
 ~~~bash  
   cd my-project
 ~~~
-* First of all, you should start both of servers frontend and backend
+* First of all, you should run both of servers frontend and backend
 ### Backend:
 
 Go to the **backend** project directory
@@ -65,10 +66,7 @@ Migrate the database and Start the server
 
 
 ### Frontend:
-Go to the **frontend** project directory
-~~~bash  
-  cd frontend
-~~~
+
 Install dependencies  
 ~~~bash  
 npm install
