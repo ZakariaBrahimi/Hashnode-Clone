@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
 from django.views.generic import TemplateView
 import requests
 from django.shortcuts import render, redirect
-
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 class AccountConfirmEmailTemplateView(TemplateView):
     template_name='verify_email.html'
@@ -28,6 +28,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('userAccount.urls')),
     path('hashnode/api/', include('hashnode.api.urls')),
+    # drf_spectacular
+    # YOUR PATTERNS
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+
     
     # Optional - browsable API login and Logout functionalities
     # path('api-auth', include('rest_framework.urls')),

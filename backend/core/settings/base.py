@@ -21,15 +21,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
     # All Auth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'dj_rest_auth.registration',
     # Social Accounts
     'allauth.socialaccount',
-    #'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    # OTHERS
+    'drf_spectacular',
     
     # By default dj-rest-auth uses Django’s Token-based authentication,
     # And we are going to use JWT authentication in this project
@@ -127,7 +128,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 }
 REST_AUTH = {
     'USE_JWT': True,
@@ -161,3 +164,10 @@ OLD_PASSWORD_FIELD_ENABLED = True
 #     'http://127.0.0.1:3000/',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Hashnode Clone API',
+    'DESCRIPTION': 'Hashnode Clone API built with Django Rest Framework',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
