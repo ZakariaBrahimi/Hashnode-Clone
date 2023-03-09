@@ -10,8 +10,8 @@ See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration 
 ## Features
 
 - **Light/dark mode toggle based on User preferances**
-- **Live previews**
-- **Fullscreen mode**
+- **<u>Well-documented</u> API using Swagger(openAPI3)**
+- **<u>Django settings</u> for multiple environments configuration**
 - **Cross platform**
 - **User Management:** 
   - Custom User Model (AbstractBaseUser)
@@ -86,7 +86,7 @@ npm run start
 ~~~
 
 ## Tech Stack
-- **Programming languages** — Python, JavaScript
+- **Programming languages** — Python, JavaScript  
 - **Backend Framework** — Django Rest Framework
 - **Frontend Framework** — React.js
 - **CSS Framework** — Tailwind CSS
