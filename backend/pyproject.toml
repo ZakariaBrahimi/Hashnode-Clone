@@ -8,7 +8,7 @@ packages = [{include = "backend"}]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-django = "^4.1.7"
+django = "^3.2"
 dj-database-url = "^1.2.0"
 psycopg2-binary = "^2.9.5"
 whitenoise = {extras = ["brotli"], version = "^6.4.0"}
