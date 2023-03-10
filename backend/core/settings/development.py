@@ -5,7 +5,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--$^@(#(v#do1&0m-xu=tm38$@bw$!27wffrj_mzpgx%if+2658'
+SECRET_KEY = 'django-insecure-m80*pz_k%f=9mzo1p#k3$$xz9e6_9i(=iwlr0qmz2n8021bjf6'
 
 # Application definition
 INSTALLED_APPS += []
