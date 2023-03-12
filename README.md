@@ -12,14 +12,23 @@ See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration 
 - **Light/dark mode toggle based on User preferances**
 - **<u>Well-documented</u> API using Swagger(openAPI3)**
 - **<u>Django settings</u> for multiple environments configuration**
-- **Cross platform**
+- **Fully Responsive**
+- **User can do the following functionalities:**
+  - Create & update & delete and like a post
+  - Create & update & delete and like a comment
+  - Follow & unfollow other users
+  - Bookmark and Draft a post
+  - Notifications system for almost all functions the user do (Coments, Reactions, Mentions)
+  - Search functionality based on tags, articles, users (using Algora API)
 - **User Management:** 
-  - Custom User Model (AbstractBaseUser)
+  - Custom User Model (using AbstractBaseUser)
   - User Registration with E-mail activation
   - Login/Logout
   - Password change
   - Password reset via e-mail
   - Social Media authentication(using only google account)
+
+## Database Design
 
 
 ## Run Locally  
