@@ -1,7 +1,11 @@
-import { useRef } from "react";
 import {Link} from "react-router-dom";
+import DarkModeContext from '../context/DarkModeContext'
+import React, { useContext, useRef } from 'react'
+
 
 const LeftSidebar = () => {
+  const {isDark} = useContext(DarkModeContext)
+
   const twitter = useRef(0);
   const linkedin = useRef(0);
   const discord = useRef(0);
@@ -10,7 +14,7 @@ const LeftSidebar = () => {
   
   return (
     
-      <div className=' h-fit sticky hidden border dark:border-[#1f2a3c] rounded-xl bg-white dark:bg-[#0f172a] dark:text-white ml-5 py-2 
+      <div className=' h-fit sticky top-6 hidden border dark:border-[#1f2a3c] rounded-xl bg-white dark:bg-[#0f172a] dark:text-white ml-5 py-2 
                       lg:block lg:col-span-2
     '>
       <div className='flex sticky flex-col gap-4'>
@@ -38,7 +42,7 @@ const LeftSidebar = () => {
         <div className="px-4 ">
         <h5 className="flex gap-2 mb-4">
           <span className='text-[#374151] font-semibold dark:text-[#92a1b6]'>Trending tags</span>
-          <svg fill={document.documentElement.className==='dark' ? '#c5cfdb' : '#989fa9'} className="h-5 w-5" viewBox="0 0 24 24"><path d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"></path></svg>
+          <svg fill={isDark ? '#c5cfdb' : '#989fa9'} className="h-5 w-5" viewBox="0 0 24 24"><path d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"></path></svg>
         </h5>
         <div className=" flex flex-col gap-3">
           <a href="/n/javascript" title="JavaScript" className="flex justify-between  rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
@@ -67,7 +71,7 @@ const LeftSidebar = () => {
           </a>
           <a href="/explore/tags" className="flex gap-3 items-center py-1 rounded-lg p-1 hover:bg-[#f3f4f6] dark:hover:bg-[#1e293b]">
             <span className='text-sm text-[#374151] font-medium dark:text-[#c5cfdb] '>See all</span>
-            <svg className="h-3 w-3" fill={document.documentElement.className==='dark' ? '#c5cfdb' : ''} viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>
+            <svg className="h-3 w-3" fill={isDark ? '#c5cfdb' : ''} viewBox="0 0 256 512"><path d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>
           </a>
         </div>
         </div>

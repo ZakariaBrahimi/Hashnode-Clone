@@ -1,6 +1,6 @@
 import {createContext, useState, useEffect} from 'react'
 import {axiosAuth, axiosAPI} from '../axios'
-import {redirect, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import {toast } from 'react-toastify';
 
@@ -42,7 +42,6 @@ export const AuthProvider = ({children})=>{
         progress: undefined,
         theme: "colored",
     });
-	// const [user, setUser] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
 	const [authToken, setAuthToken] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
     const [authNotifications, setAuthNotifications] = useState([])
     const [userData, setUserData] = useState({})
@@ -168,30 +167,6 @@ export const AuthProvider = ({children})=>{
         })
     }
     
-
-    const userDetails = ()=>{
-        let user = JSON.parse(localStorage.getItem('user'))
-        let access_token = localStorage.getItem('accessToken')
-        
-        axiosAPI({                                                                                                                                                                                                                                                                                                    
-            url: `/users/${user['pk']}`,
-            method: 'get',
-            headers:{
-                'Authorization': `Bearer ${access_token}`
-            },
-        }
-        ).then((response)=>{
-            // console.log('response')
-            // console.log(response)
-            setUserData(response.data)
-        }).catch((error)=>{
-            let data = error.response.data
-            console.log('error')
-            console.log(error)
-            
-        })
-    }
-
     const passwordChangeHandl = async (e, old_password, new_password1, new_password2) => {
         e.preventDefault()
         let access_token = localStorage.getItem('accessToken')
@@ -226,7 +201,6 @@ export const AuthProvider = ({children})=>{
             
         }
     }
-
 
 	let contextData = {
 		// user: user,
