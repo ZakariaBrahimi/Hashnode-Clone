@@ -17,7 +17,9 @@ RUN pip install -r requirements.txt
 # Copy project
 COPY . .
 
+RUN python manage.py makemigrations
 RUN python manage.py migrate
+RUN python manage.py showmigrations
 
 EXPOSE 8000
 
