@@ -4,7 +4,8 @@
 * **About Hashnode:** It's a free blogging platform and community of developers that enables you to publish articles on your domain with a custom blog page. Hashnode allows you to completely customise your blog page with built-in features, widgets and integrations.
 ## Demo
 
-See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration of the website.
+- See the [Demo](https://hashnode-clone-one.vercel.app/) for a live demonstration of the website.
+- You can see the API documentation using [swagger UI](https://swagger.io/tools/swagger-ui/) [here](https://hashnodeclone.onrender.com/api/schema/swagger-ui/)
 
 
 ## Features
