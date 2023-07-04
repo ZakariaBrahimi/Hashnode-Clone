@@ -2,17 +2,51 @@ import {useState, useRef, useEffect} from "react";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios  from 'axios'
+import { axiosAPI } from "../axios";
+import {toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const CreateNewArticle = () => {
+  const navigate = useNavigate()
+  const notifyError = (message) => toast.error(message, {
+    position: "top-left",
+    autoClose: 6000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+});
+const notifySuccess = (message) => toast.success(message, {
+    position: "top-left",
+    autoClose: 6000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+});
+const notifyWarning = (message) => toast.warning(message, {
+    position: "top-left",
+    autoClose: 6000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+});
   const [photos, setPhotos] = useState([])
   const [uploadImg, setUploadImg] = useState(false)
   const [infoBox, setInfoBox] = useState(true)
   const [uploadImgFrom, setUploadImgFrom] = useState('local')
-  const [selectedImg, setSelectedImg] = useState(undefined)
-  const [selectedImgFromUnsplash, setselectedImgFromUnsplash] = useState(undefined)
+  const [selectedImg, setSelectedImg] = useState(null)
+  const [selectedImgFromUnsplash, setselectedImgFromUnsplash] = useState(null)
   const [imgPreview, setImgPreview] = useState(undefined)
   const onSelectPhotoFromUnsplash = (e)=>{
-    
+  
     //if (!e.target.files || e.target.files.length === 0) {
       //setSelectedImg(undefined)
       //return
@@ -88,6 +122,58 @@ const CreateNewArticle = () => {
     document.getElementById('box').innerHTML += setSubtitleInput
   }
   const [showSubtitle, setShowSubtitle] = useState(false)
+
+
+  const article_create_handler = async (e) => {
+    e.preventDefault()
+    if(e.nativeEvent.submitter.name === 'publish'){
+      console.log(selectedImg)
+      console.log(selectedImgFromUnsplash)
+      try{
+        const formData = new FormData();
+        formData.append('title', e.target.title.value);
+        formData.append('upload_from', selectedImg ? 'local' : 'unsplash');
+        formData.append('subtitle', e.target.subtitle.value);
+        formData.append('content', e.target.articleBody.value);
+        formData.append('cover', selectedImg ? selectedImg : selectedImgFromUnsplash);
+        const {data} = await axiosAPI({
+          url: '/create/article',
+          method: 'post',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          data: formData
+        })
+        console.log(data)
+        navigate(`/article/${data?.id}`)
+        notifySuccess('A New Article Created Successfully')
+      }catch(errors){
+        console.log(typeof(errors))
+
+      }
+    }else{
+      try{
+        const formData = new FormData();
+        formData.append('title', e.target.title.value);
+        formData.append('subtitle', e.target.subtitle.value);
+        formData.append('content', e.target.articleBody.value);
+        formData.append('cover', selectedImg);
+        const {data} = await axiosAPI({
+          url: '/create-draft/article',
+          method: 'post',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          data: formData
+        })
+        console.log(data)
+        navigate(`/drafts`)
+        notifySuccess('Article Created and saved as draft Successfully')
+      }catch(e){}
+    }
+  }
   
   return (
     <div className="bg-white h-full mt-[-20px]">
@@ -114,7 +200,7 @@ const CreateNewArticle = () => {
                 <div class="flex justify-center  items-center align-middle mt-10 mb-6">
                   <label class="py-3 px-12 text-sm font-bold rounded-lg text-white bg-blue-600 cursor-pointer hover:bg-opacity-75">
                     <span class="">Choose an image</span>
-                    <input onChange={onSelectFile} className="hidden" type="file"  data-id="upload-cover" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg, image/webp, image/bmp, image/x, image/tiff, image/vnd, image/xbm" />
+                    <input name="artical_img"  onChange={onSelectFile} className="hidden" type="file"  data-id="upload-cover" accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg, image/webp, image/bmp, image/x, image/tiff, image/vnd, image/xbm" />
                   </label>
                 </div>
                   <p class="text-sm w-full text-center text-[#475569] leading-tight">Recommended dimension is 1600 x 840</p>
@@ -192,20 +278,23 @@ const CreateNewArticle = () => {
           </div>
         </div>
       }
-      <div id='box' ref={titleSubtitle} className="w-full leading-snug flex flex-col">
-        <textarea maxLength='150' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Title ..." ></textarea>
-        <div className='flex gap-2 flex-row-reverse justify-center items-center'>
-          <button onClick={()=>setShowSubtitle(false)} type="button" data-title="Remove sub-title" variant="transparent" class={`${showSubtitle ? 'flex' : 'hidden' } mb-8 hover:bg-[#e2e8f0] px-2 font-medium rounded-full text-sm outline outline-offset-2 outline-transparent outline-2 opacity-75 py-1`}>
-            <svg class="w-6 h-6" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
-          </button>
-          <textarea maxLength='150' className={`${showSubtitle ? 'block' : 'hidden'} h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none`} type="text" placeholder="Article Subtitle ..." ></textarea>
-        </div> 
-      </div>
-    </div>
-    <SimpleMDE />
-    <div className='w-full flex justify-end gap-2'>
-      <button className="text-gray-600 hover:bg-gray-500 mb-8 rounded-full py-2 px-5 font-medium text-lg border shadow hover:text-white">Save as Draft</button>
-      <button className="bg-blue-600  mb-8 rounded-full py-2 px-5 text-white font-medium text-lg mr-4 shadow shadow-blue-200">Publish</button>
+      <form onSubmit={article_create_handler}>
+        <div id='box' ref={titleSubtitle} className="w-full leading-snug flex flex-col">
+          <textarea name="title" id="title" maxLength='150' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Title ..." ></textarea>
+          <div className='flex gap-2 flex-row-reverse justify-center items-center'>
+            <button onClick={()=>setShowSubtitle(false)} type="button" data-title="Remove sub-title" variant="transparent" class={`${showSubtitle ? 'flex' : 'hidden' } mb-8 hover:bg-[#e2e8f0] px-2 font-medium rounded-full text-sm outline outline-offset-2 outline-transparent outline-2 opacity-75 py-1`}>
+              <svg class="w-6 h-6" viewBox="0 0 320 512"><path d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>
+            </button>
+            <textarea id="subtitle" name="subtitle" maxLength='150' className={`${showSubtitle ? 'block' : 'hidden'} h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none`} type="text" placeholder="Article Subtitle ..." ></textarea>
+          </div> 
+        </div>
+        <SimpleMDE id="articleBody" />
+        <div className='w-full flex justify-end gap-2'>
+          <button type="submit" name="save_as_draft"  className="text-gray-600 hover:bg-gray-500 mb-8 rounded-full py-2 px-5 font-medium text-lg border shadow hover:text-white">Save as Draft</button>
+          <button type="submit" name="publish" className="bg-blue-600  mb-8 rounded-full py-2 px-5 text-white font-medium text-lg mr-4 shadow shadow-blue-200">Publish</button>
+        </div>
+
+      </form>
     </div>
     </div>
     </div>

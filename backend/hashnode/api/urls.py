@@ -13,6 +13,7 @@ urlpatterns = [
 	path('articles/recent', views.recentArticles),	
 	path('articles/<int:article_id>/', views.article_details),
 	path('create/article', views.create_article),
+	path('create-draft/article', views.save_as_draft),
 	path('edit/<str:slug>', views.edit_article),
 	path('article/delete/<int:article_id>', views.delete_article),
 	path('article/like-or-dislike/<int:article_id>', views.likeDislikeArticle),

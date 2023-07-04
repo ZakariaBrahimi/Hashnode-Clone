@@ -1,7 +1,8 @@
+import requests
 from ..models import *
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny 
 from django.shortcuts import get_object_or_404
 from .serializers import *
 from django.contrib.auth import get_user_model
@@ -9,27 +10,28 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 # Logged User
-# Before move on to writing the code in vscode,
-# Declare the arguments for each view
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def user_profile(request, pk):
-	user_details = get_object_or_404(User, pk=pk)
-	user_details_serializer = UserSerializer(user_details)
-	return Response(user_details_serializer.data)
-
+    print(pk)
+    user_details = get_object_or_404(User, pk=pk)
+    user_details_serializer = UserDetailsSerializer(user_details)
+    return Response(user_details_serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def edit_user_profile(request):
 	data = request.data
+ 
+	print(data)
 	user = get_object_or_404(User, id=request.user.id)
-	new_user_data = UserSerializer(instance=user, data=data)
+	new_user_data = UserDetailsSerializer(instance=user, data=data, partial=True)
 	if new_user_data.is_valid():
-		new_user_data.save() # .save() will update the existing `User` instance.
+		new_user_data.save()
+		print(new_user_data.data)
 		return Response(new_user_data.data)
-
+	return Response(new_user_data.errors)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -65,12 +67,38 @@ def article_details(request,article_id):
 	article_serializer = ArticleSerializer(article)
 	return Response(article_serializer.data)
 
+import requests
+from django.core.files.temp import NamedTemporaryFile
+def download_and_save_article_image(image_url):
+	"""helper function: when the user upload the image from usplash website as url"""
+	response = requests.get(image_url)
+	if response.status_code == 200:
+		img_temp = NamedTemporaryFile() # create a temporary file
+		img_temp.write(response.content) # write the image content to a temporary file
+		img_temp.flush()
+		return img_temp
 
+from django.core.files import File
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_article(request):
-	return Response()
-
+    print(request.data.get('content'))
+    upload_from = request.data.get('upload_from')
+    if upload_from == 'local':
+        print('local upload')
+        new_article = Article.objects.create(author=request.user,cover=request.data.get('cover'),content=request.data.get('content'),title=request.data.get('title'),subtitle=request.data.get('subtitle'))
+        serializer = ArticleSerializer(new_article)
+        return Response(serializer.data)
+    else:
+        print('unsplash upload')
+        img_temp = download_and_save_article_image(request.data.get('cover'))
+        new_article = Article(author=request.user,content=request.data.get('content'),title=request.data.get('title'),subtitle=request.data.get('subtitle'))
+        new_article.cover.save(f"{request.data.get('title')}.jpg", File(img_temp))
+        new_article.save()
+        serializer = ArticleSerializer(new_article)
+        return Response(serializer.data)
+        
+        
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -107,7 +135,22 @@ def bookmark_article(request):
 @permission_classes([IsAuthenticated])
 def draft_article(request):
 	""" Make an article drafted/un-drafted """
+	created, instance = Article.objects.get_or_create()
 	return Response()
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def save_as_draft(request):
+	""" Save the new created article as draft """
+	article = Article.objects.create(
+		author=request.user,
+		cover=request.data.get('cover'),
+		content=request.data.get('content'),
+		title=request.data.get('title'),
+		subtitle=request.data.get('subtitle'),
+		status='draft'
+	)
+	return Response('Article Created successfully, and added to draft list')
+
 
 
 # Comment

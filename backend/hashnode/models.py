@@ -11,11 +11,11 @@ class Article(models.Model):
 	author     = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # on_delete=models.CASCADE --> if the user deleted, then delete the article
 	likes      = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True) # by default 0
 	bookmarks  = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmarks', blank=True) # by default 0
-	status     = models.CharField(max_length=10, choices=article_options, default='draft') # To achieve drafts functionality
+	status     = models.CharField(max_length=10, choices=article_options, default='published') # To achieve drafts functionality
 	content    = models.TextField()
 	subtitle   = models.CharField(max_length=250, blank=True)
 	title      = models.CharField(max_length=250)
-	cover      = models.ImageField(upload_to="media/images/articles_covers/") # , default='images/articles_covers/default.jpg'
+	cover      = models.ImageField(upload_to="articles_covers")
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	slug = models.SlugField(max_length=250, blank=True, null=False)

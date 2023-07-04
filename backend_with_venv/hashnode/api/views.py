@@ -8,15 +8,12 @@ from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
-# Logged User
-# Before move on to writing the code in vscode,
-# Declare the arguments for each view
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile(request, pk):
 	user_details = get_object_or_404(User, pk=pk)
-	user_details_serializer = UserSerializer(user_details)
+	user_details_serializer = UserDetailsSerializer(user_details)
 	return Response(user_details_serializer.data)
 
 
@@ -25,7 +22,7 @@ def user_profile(request, pk):
 def edit_user_profile(request):
 	data = request.data
 	user = get_object_or_404(User, id=request.user.id)
-	new_user_data = UserSerializer(instance=user, data=data)
+	new_user_data = UserDetailsSerializer(instance=user, data=data)
 	if new_user_data.is_valid():
 		new_user_data.save() # .save() will update the existing `User` instance.
 		return Response(new_user_data.data)

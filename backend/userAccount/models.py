@@ -94,7 +94,7 @@ class CustomUser(AbstractUser):
     github = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
-    img = models.ImageField(upload_to="images/users_images/", blank=True, verbose_name='User Image') # , default='images/articles_covers/default.jpg'
+    img = models.ImageField(upload_to="users", blank=True, verbose_name='User Image') # , default='images/articles_covers/default.jpg'
 
 
     

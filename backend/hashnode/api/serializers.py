@@ -8,7 +8,7 @@ User = get_user_model()
 class UserDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model  = User
-        fields = ('fullname', 'email', 'date_joined', 'follow', 'bio', 'profile_tagline', 'available_for', 'location', 'stackOverflow', 'facebook', 'linkedin', 'youtube', 'website', 'github', 'twitter', 'instagram',)
+        fields = ('id', 'fullname', 'img', 'email', 'date_joined', 'follow', 'bio', 'profile_tagline', 'available_for', 'location', 'stackOverflow', 'facebook', 'linkedin', 'youtube', 'website', 'github', 'twitter', 'instagram',)
         depth  = 1
 
 class ArticleSerializer(serializers.ModelSerializer):

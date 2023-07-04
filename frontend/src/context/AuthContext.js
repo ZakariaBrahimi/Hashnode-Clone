@@ -42,16 +42,8 @@ export const AuthProvider = ({children})=>{
         progress: undefined,
         theme: "colored",
     });
-	const [authToken, setAuthToken] = useState(()=>localStorage.getItem('accessToken') ? window.localStorage.getItem('accessToken') : null)
-    const [authNotifications, setAuthNotifications] = useState([])
-    const [userData, setUserData] = useState({})
-
-    useEffect(()=>{
-        Object.values(authNotifications).map((notification)=>{
-            let [message] = notification
-            notifyError(message)
-        })
-    }, [authNotifications])
+	const [authToken, setAuthToken] = useState(()=>localStorage.getItem('accessToken') ? localStorage.getItem('accessToken')      : null)
+    const [userData, setUserData]   = useState(()=>localStorage.getItem('user')        ? JSON.parse(localStorage.getItem('user')) : null)
 
 	const loginUser = (e)=>{
         e.preventDefault()
@@ -67,15 +59,29 @@ export const AuthProvider = ({children})=>{
             }
         }
         ).then((response)=>{
-            window.localStorage.setItem('accessToken', response.data['access_token'])
+            console.log(response)
+            window.localStorage.setItem('accessToken', response.data['access'])
+            window.localStorage.setItem('refreshToken', response.data['refresh'])
+            window.localStorage.setItem('user', JSON.stringify(response.data['user']))
             setUserData(response.data['user'])
-            setAuthToken(response.data['access_token'])
-            navigate('/profile')
+            setAuthToken(response.data['access'])
+            navigate(`/profile/${userData?.id}`)
             notifySuccess('logged in successfully') 
         }).catch((error)=>{
-            console.log(error)
-            let errorMessage = error.response.data    
-            setAuthNotifications(errorMessage)
+            let errors = error.response.data
+            console.log(errors)
+            Object.entries(errors).forEach(([field, errors_arr])=>{
+                if(field==='password' || field==='email'){
+                    errors_arr.map(errorMessage=>{
+                     notifyError(`${field}: ${errorMessage}`)
+                     return 0
+                })}else{
+                    errors_arr.map(errorMessage=>{
+                        notifyError(errorMessage)
+                        return 0
+                   })
+                }
+            })              
         })
     }
 
@@ -100,7 +106,6 @@ export const AuthProvider = ({children})=>{
             notifySuccess('A verification Email have sent successfully, take a look.')
         }).catch((error)=>{
             let data = error.response.data
-            setAuthNotifications(data)
             
         })
     }
@@ -123,7 +128,6 @@ export const AuthProvider = ({children})=>{
             notifySuccess(successMessage)
         }).catch((error)=>{
             let data = error.response.data
-            setAuthNotifications(data)
         })
     }
 
@@ -167,11 +171,29 @@ export const AuthProvider = ({children})=>{
         })
     }
     
+    const get_user_data = async () => {
+        try{
+            let {data} = await axiosAPI({                                                                                                                                                                                                                                                                                                    
+                url: `/users/${userData?.id}/`,
+                method: 'get',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                
+            })
+            setUserData(data)
+            localStorage.setItem('user', JSON.stringify(data));
+        }catch(error){
+            console.log(error)
+            console.log(authToken)
+        }
+    }
     const passwordChangeHandl = async (e, old_password, new_password1, new_password2) => {
         e.preventDefault()
         let access_token = localStorage.getItem('accessToken')
         try{
-            let response = await axiosAuth({                                                                                                                                                                                                                                                                                                    
+            let {data} = await axiosAuth({                                                                                                                                                                                                                                                                                                    
                 url: '/password/change/',
                 method: 'post',
                 headers:{
@@ -185,7 +207,8 @@ export const AuthProvider = ({children})=>{
                 }
             })
             // console.log('response.data')
-            // console.log(response.data)
+            console.log(data)
+            notifySuccess(data?.detail)
             // let {old_password, new_password1, new_password2} = response.data
             // notifySuccess(old_password)
             // notifySuccess(new_password1)
@@ -201,17 +224,19 @@ export const AuthProvider = ({children})=>{
             
         }
     }
-
+    useEffect(() => {
+        localStorage.setItem('user', JSON.stringify(userData))
+    }, [userData])
 	let contextData = {
-		// user: user,
         userData:userData,
+        setUserData:setUserData,
 		authToken: authToken,
 		loginUser: loginUser,
 		logoutUser:logoutUser,
 		googleAuth:googleAuth,
         RegisterUser:RegisterUser,
         passwordReset:passwordReset,
-        // userDetails,userDetails,
+        get_user_data:get_user_data,
         passwordChangeHandl:passwordChangeHandl,
 	}
 	return (

@@ -54,7 +54,7 @@ function App() {
               } />
             </Route>
             <Route path='explore' element={<Explore />} />
-            <Route path="profile" element={<PrivateRoute><Profile/></PrivateRoute>} />
+            <Route path="profile/:user_id" element={<Profile/>} />
             <Route path="password-reset" element={<PasswordReset/>} />
             <Route path="create-story" element={<PrivateRoute><CreateNewArticle/></PrivateRoute>} />
             <Route path="onboard" element={<LoginSignup />} />

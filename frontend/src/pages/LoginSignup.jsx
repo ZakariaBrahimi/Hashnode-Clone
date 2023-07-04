@@ -3,7 +3,6 @@ import { Link, Navigate } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 const LoginSignup = () => {
-  // let  {loginUser} = useContext(AuthContext)
   let {loginUser, user, googleAuth, RegisterUser} = useContext(AuthContext)
   const [signupForm, setSignupForm] = useState(false)
 

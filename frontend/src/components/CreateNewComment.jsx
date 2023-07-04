@@ -1,4 +1,6 @@
 
+
+
 const CreateNewArticle = ({showCommentInput, setShowCommentInput, setNewComment, addNewComment, newComment})=>{
 	return (
 		<div className={`${showCommentInput ? 'flex' : 'hidden'} gap-4 flex-col sm:justify-between w-full items-center p-4 mb-6 border rounded-lg`}>

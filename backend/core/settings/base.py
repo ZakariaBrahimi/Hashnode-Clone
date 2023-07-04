@@ -133,6 +133,7 @@ REST_FRAMEWORK = {
 REST_AUTH = {
     'USE_JWT': True,
     'USER_DETAILS_SERIALIZER': 'hashnode.api.serializers.UserDetailsSerializer',
+    'OLD_PASSWORD_FIELD_ENABLED': True,
 }
 # By default dj-rest-auth uses Django’s Token-based authentication, 
 # Which are limited to one per user. This does not facilitate securely signing in from multiple devices
@@ -155,8 +156,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # dj-auth- Configurations
 
-# To use old_password field on password change
-OLD_PASSWORD_FIELD_ENABLED = True
+
 
 # CORS_ALLOWED_ORIGINS = [
 #     'http://127.0.0.1:3000/',
@@ -169,3 +169,9 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')
+MEDIA_URL  = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL  = '/static/'

@@ -29,7 +29,6 @@ urlpatterns = [
     path('', include('userAccount.urls')),
     path('hashnode/api/', include('hashnode.api.urls')),
     # drf_spectacular
-    # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
@@ -40,8 +39,10 @@ urlpatterns = [
     # path('api-auth', include('rest_framework.urls')),
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    
     # Verify email 
     re_path(
         r'^account-confirm-email/(?P<key>[-:\w]+)/$', AccountConfirmEmailTemplateView.as_view()
@@ -53,4 +54,9 @@ urlpatterns = [
     re_path(r'^password-reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,32})/$',
         PasswordResetConfirmTemplateView.as_view(template_name="password_reset_confirm.html"),
         name='password_reset_confirm'),
-    ]
+    ] 
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

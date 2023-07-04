@@ -13,7 +13,7 @@ class CustomArticleAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Required Fields', {'fields': ('author', 'title', 'status', 'content', 'cover')}),
-        ('Optional Fields', {'fields': ('subtitle',)}),
+        ('Optional Fields', {'fields': ('subtitle', 'likes', 'bookmarks')}),
     )
     # add_fieldsets = (
     #     (None, {
