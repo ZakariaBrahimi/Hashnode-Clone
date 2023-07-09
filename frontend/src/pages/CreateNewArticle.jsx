@@ -4,10 +4,11 @@ import "easymde/dist/easymde.min.css";
 import axios  from 'axios'
 import { axiosAPI } from "../axios";
 import {toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CreateNewArticle = () => {
   const navigate = useNavigate()
+
   const notifyError = (message) => toast.error(message, {
     position: "top-left",
     autoClose: 6000,
@@ -46,11 +47,7 @@ const notifyWarning = (message) => toast.warning(message, {
   const [selectedImgFromUnsplash, setselectedImgFromUnsplash] = useState(null)
   const [imgPreview, setImgPreview] = useState(undefined)
   const onSelectPhotoFromUnsplash = (e)=>{
-  
-    //if (!e.target.files || e.target.files.length === 0) {
-      //setSelectedImg(undefined)
-      //return
-  //}
+
     setselectedImgFromUnsplash(e.target.src)
     setInfoBox(true)
   }
@@ -60,11 +57,7 @@ const notifyWarning = (message) => toast.warning(message, {
       return
     }
     setUploadImg(false)
-    //console.log(selectedImgFromUnsplash)
-    //const objectUrl = URL.createObjectURL(selectedImgFromUnsplash)
     setImgPreview(selectedImgFromUnsplash)
-    // free memory when ever this component is unmounted
-    //return () => URL.revokeObjectURL(objectUrl)
   },[selectedImgFromUnsplash,])
   
   const onSelectFile = (e)=>{
@@ -113,8 +106,6 @@ const notifyWarning = (message) => toast.warning(message, {
     }).catch((error)=>{
       console.log(error)
     })
-
-    
   }
   const titleSubtitle = useRef()
   const setSubtitleInput = `<textarea maxLength='150' style='' className="h-[84px] placeholder-[#0f172a] placeholder-opacity-50 w-full px-4 mt-2 text-4xl overflow-hidden font-extrabold	 text-[#0f172a] bg-transparent outline-transparent outline-2 outline appearance-none outline-offset-2 resize-none " type="text" placeholder="Article Subtitle ..." ></textarea>`
@@ -127,8 +118,6 @@ const notifyWarning = (message) => toast.warning(message, {
   const article_create_handler = async (e) => {
     e.preventDefault()
     if(e.nativeEvent.submitter.name === 'publish'){
-      console.log(selectedImg)
-      console.log(selectedImgFromUnsplash)
       try{
         const formData = new FormData();
         formData.append('title', e.target.title.value);

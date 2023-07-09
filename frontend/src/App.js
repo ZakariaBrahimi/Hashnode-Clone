@@ -1,9 +1,7 @@
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import {Route, Routes} from "react-router-dom";
-import FeaturedArticles from "./components/FeaturedArticles";
 import RecentArticles from "./components/RecentArticles";
-import Personalized from "./components/Personalized";
 import Bookmarks from "./pages/Bookmarks";
 import Drafts from "./pages/Drafts";
 import Explore from "./pages/Explore";
@@ -13,14 +11,13 @@ import LeftRightSides from "./components/LeftRightSides";
 import DeleteAccount from "./components/DeleteAccount";
 import EditProfile from "./components/EditProfile";
 import CreateNewArticle from "./pages/CreateNewArticle";
+import EditArticle from "./pages/EditArticle";
 import LoginSignup from "./pages/LoginSignup";
 import Article from "./pages/Article";
-import NotificationsPopup from "./components/NotificationsPopup";
-import {useState, useRef, useEffect} from 'react'
 import {AuthProvider} from './context/AuthContext'
 import {DarkModeProvider} from './context/DarkModeContext'
 import PrivateRoute from './utils/PrivateRoute'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PasswordReset from "./pages/PasswordReset";
 import PasswordChange from "./pages/PasswordChange";
@@ -57,6 +54,7 @@ function App() {
             <Route path="profile/:user_id" element={<Profile/>} />
             <Route path="password-reset" element={<PasswordReset/>} />
             <Route path="create-story" element={<PrivateRoute><CreateNewArticle/></PrivateRoute>} />
+            <Route path="edit-story" element={<PrivateRoute><EditArticle/></PrivateRoute>} />
             <Route path="onboard" element={<LoginSignup />} />
             <Route path="article/:article_id" element={<Article/>} />
           </Routes>

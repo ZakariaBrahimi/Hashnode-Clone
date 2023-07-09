@@ -18,7 +18,7 @@ const PasswordReset = () => {
         </header>*/}
 
 
-		<div className='bg-[#fafbff]sm:max-w-[640px] h-10/12 md:max-w-[768px] lg:max-w-[1024px] lg:min-w-[0px] m-auto'>
+		<div className='bg-[#fafbff] sm:max-w-[640px] h-10/12 md:max-w-[768px] lg:max-w-[1024px] lg:min-w-[0px] m-auto'>
 			<h1 className='flex text-center flex-col text-3xl font-extrabold text-[#0f172a]'>
 		    	<span className="text-blue-600">Password Reset</span>
 		    </h1>

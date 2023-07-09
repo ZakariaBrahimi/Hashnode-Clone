@@ -16,3 +16,14 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = '__all__'
         depth = 1
+        
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('content', 'author', 'article', 'created_date', 'id')
+        depth = 1
+class CreateCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('content', 'author', 'article', 'created_date')
+        # depth = 1

@@ -65,7 +65,7 @@ export const AuthProvider = ({children})=>{
             window.localStorage.setItem('user', JSON.stringify(response.data['user']))
             setUserData(response.data['user'])
             setAuthToken(response.data['access'])
-            navigate(`/profile/${userData?.id}`)
+            navigate(`/profile/${response.data['user']?.id}`)
             notifySuccess('logged in successfully') 
         }).catch((error)=>{
             let errors = error.response.data

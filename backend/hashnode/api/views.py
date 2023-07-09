@@ -61,12 +61,18 @@ def personalizedArticles(request):
 def FeatureArticles(request):
 	return Response()
 
+# @api_view(['GET'])
+# def article_details(request,article_id):
+# 	article = get_object_or_404(Article, id=article_id)
+# 	article_serializer = ArticleSerializer(article)
+# 	return Response(article_serializer.data)
 @api_view(['GET'])
-def article_details(request,article_id):
-	article = get_object_or_404(Article, id=article_id)
-	article_serializer = ArticleSerializer(article)
-	return Response(article_serializer.data)
-
+def article_details(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    comments = Comment.objects.filter(article=article_id)
+    article_serializer = ArticleSerializer(article)
+    comments_serializer = CommentSerializer(comments, many=True)
+    return Response({'comments': comments_serializer.data, 'article_details': article_serializer.data})
 import requests
 from django.core.files.temp import NamedTemporaryFile
 def download_and_save_article_image(image_url):
@@ -103,7 +109,14 @@ def create_article(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def edit_article(request):
-	return Response()
+    articleID = request.query_params.get('articleID')
+    article = get_object_or_404(Article, pk=articleID)
+    print(request.data)
+    serializer = ArticleSerializer(instance=article, data=request.data, partial=True)
+    if serializer.is_valid():
+        print(request.data)
+        serializer.save()
+        return Response(serializer.data)
 
 
 @api_view(['POST'])
@@ -115,21 +128,38 @@ def delete_article(request, article_id):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def likeDislikeArticle(request, article_id):
-	article = get_object_or_404(Article, id=article_id)
-	if article.likes.filter(id=request.user.id).exists():
-		article.likes.remove(request.user.id)
-	else:
-		article.likes.add(request.user.id)
+def likeDislikeArticle(request):
+    articleID = request.query_params.get('articleID')
+    article = get_object_or_404(Article, id=articleID)
+    if article.likes.filter(id=request.user.id).exists():
+        article.likes.remove(request.user.id)
+        article.save()
+        return Response({'likesCount': len(article.likes.all()), 'status': 'disliked'})
+    else:
+       article.likes.add(request.user.id)
+       article.save()
+       return Response({'likesCount': len(article.likes.all()), 'status': 'liked'})
 
-	return Response({'likesCount': len(article.likes.all())})
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def bookmark_article(request):
-	""" Make an article bookmarked/un-bookmarked """
-	return Response()
-
+    """ Make an article bookmarked/un-bookmarked """
+    articleID = request.query_params.get('articleID')
+    article = get_object_or_404(Article, id=articleID)
+    print(article.bookmarks.all())
+    if request.user in article.bookmarks.all():
+        article.bookmarks.remove(request.user)
+        print('exist, and removed')
+        article.save()
+        return Response('un-bookmarked')
+    else:
+        article.bookmarks.add(request.user)
+        print('un-exist, adn added')
+        article.save()
+        return Response('bookmarked')
+    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -158,19 +188,61 @@ def save_as_draft(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_comment(request):
-	return Response()
+    article_id = int(request.query_params.get('articleID'))
+    print(f"Article ID: {article_id}")
+    article = get_object_or_404(Article, id=article_id)
+    serializer = CreateCommentSerializer(data={
+        'content': request.data.get('content'),
+        'author': request.user.id,
+        'article': article.id,  # Assign the article's primary key to the field
+    })
+    print(serializer)
+    if serializer.is_valid():
+        serializer.save()
+        comments = Comment.objects.filter(article=article_id)
+        comments_serializer = CommentSerializer(comments, many=True)
+        return Response(comments_serializer.data)
+    return Response(serializer.errors)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def edit_comment(request):
-	return Response()
+    # try:
+    comment_id = int(request.query_params.get('commentID'))
+    comment = get_object_or_404(Comment, id=comment_id)
+    article_id = comment.article.id
+    print(request.data)
+    serializer = CommentSerializer(instance=comment, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        comments = Comment.objects.filter(article=article_id)
+        comments_serializer = CommentSerializer(comments, many=True)
+        return Response(comments_serializer.data)
+    print(serializer.errors)
+    return Response(serializer.errors)
+    # except:
+    #     return Response('serializer.errors')
+    return Response()
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_comment(request):
-	return Response()
+    print(type(request.query_params.get('commentID')))
+    # try:
+    comment_id = int(request.query_params.get('commentID'))
+    comment = get_object_or_404(Comment, id=comment_id)
+    article_id = comment.article.id
+    comment.delete()
+    comments = Comment.objects.filter(article=article_id)
+    serializer = CommentSerializer(comments, many=True)
+    # if serializer.is_valid():
+    return Response(serializer.data)
+    print(serializer.errors)
+    return Response(serializer.errors)
+    # except:
+    #     return Response('serializer.errors')
 
 
 @api_view(['GET'])

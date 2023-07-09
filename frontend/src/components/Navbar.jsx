@@ -7,7 +7,7 @@ import DarkModeContext from '../context/DarkModeContext'
 
 
 const Navbar = () => {
-  let {logoutUser} = useContext(AuthContext)
+  let {logoutUser, userData} = useContext(AuthContext)
   let {isDark, setIsDark}  = useContext(DarkModeContext)
   let location = useLocation();
   let notificationsBox = useRef()
@@ -75,14 +75,14 @@ const Navbar = () => {
         {/* pROFILE BOX */}
         <div className={`${profileOpen ? 'md:flex' : 'hidden'} hidden text-[#111827]`} ref={profileBox}>
         <div className='absolute dark:bg-black dark:border-[#1e293b] bg-white top-[3.9rem] right-[1.7rem] w-5 h-5 z-40 origin-center rotate-45 border-t shadow-t shadow-l rounded-l-sm border-l'></div>
-        <div className='W-18 h-18 rounded-md dark:bg-black absolute flex flex-col bg-white top-[4.589rem] right-[1.275rem] dark:border-[#1e293b] z-50 border-x border-b shadow'>
-              <Link to='profile' className='flex gap-4 items-center border-b dark:border-[#1e293b] dark:hover:bg-[#334155] hover:bg-[#e5e7eb] cursor-pointer p-6'>
+        <div className='w-64 max-w-sm h-18 rounded-md dark:bg-black absolute flex flex-col bg-white top-[4.589rem] right-[1.275rem] dark:border-[#1e293b] z-50 border-x border-b shadow'>
+              <Link to={`profile/${userData?.id}`} className='flex gap-4 items-center border-b dark:border-[#1e293b] dark:hover:bg-[#334155] hover:bg-[#e5e7eb] cursor-pointer p-6'>
                 <div>
                   <img className='h-14 w-14 rounded-full ' src={myPicture} alt="" />
                 </div>
                 <div>
-                  <h3 className='font-bold dark:text-white'>Zakaria Adessamed Brahimi</h3>
-                  <p className='text-[#4b5563] dark:text-white text-sm text-ellipsis whitespace-nowrap overflow-hidden'>@ZakariaBrahimi</p>
+                  <h3 className='font-bold dark:text-white'>{userData?.fullname}</h3>
+                  <p className='text-[#4b5563] dark:text-white text-sm text-ellipsis whitespace-nowrap overflow-hidden'>@{userData?.fullname}</p>
                 </div>
               </Link>
               <div className=" flex flex-col gap-3 border-b dark:border-[#1e293b]">            
@@ -116,9 +116,6 @@ const Navbar = () => {
               
         </div>
         </div>
-  
-  
-  
         {/* background opacity */}
         <section onClick={()=>{isOpen(false)}} className={`${open ? 'flex' : 'hidden'} bg-[#00000066] w-screen h-screen float-left z-50 fixed`}></section>
   

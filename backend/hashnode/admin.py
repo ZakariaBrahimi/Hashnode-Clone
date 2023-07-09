@@ -31,13 +31,17 @@ from django.utils.http import urlencode
 class CustomCommentAdmin(admin.ModelAdmin):
     model = Comment
     list_display = ('author', 'article_link', 'created_date',)
+    # fieldsets = (
+    #     ('Required Fields', {'fields': ('author', 'article', 'content',)}),
+    #     ('Optional Fields', {'fields': ('created_date',)}),
+    # )
+    
     def article_link(self, obj):
         url = (reverse("admin:hashnode_article_changelist")
         	+ "?"
             + urlencode({"comments__id": f"{obj.id}"})
         	)
         return format_html('<a href="{}">{}</a>', url, obj)
-
 
 class CustomTagAdmin(admin.ModelAdmin):
     model = Tag

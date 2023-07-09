@@ -12,6 +12,7 @@ import ReactMarkdown from 'react-markdown'
 import readingTime from 'reading-time/lib/reading-time'
 
 const Article = () => {
+    const {userData,} = useContext(AuthContext)
   const navigate = useNavigate()
   const notifyError = (message) => toast.error(message, {
         position: "top-left",
@@ -84,7 +85,7 @@ const Article = () => {
   const [showCommentInput, setShowCommentInput] = useState(false)
   const [comments, setComments] = useState([])
   
-  const [buttonPopup, setButtonPopup] = useState(false)
+  
   const [buttonPopupArticle, setButtonPopupArticle] = useState(false)
 
   const deleteComment = (e)=>{}
@@ -102,24 +103,18 @@ const Article = () => {
   let { article_id } = useParams()
   const fetchArticleDetials = async () => {
     try{
-      let response = await axiosAPI({
+      let {data} = await axiosAPI({
         method: 'get',
         url: `articles/${article_id}`,
         headers:{'Content-Type': 'application/json'}
       })
-      setArticleDetails(response.data)
+      setArticleDetails(data?.article_details)
+      setComments(data?.comments)
     }catch(error){
       console.log(error)
     }
   }
-
-  useEffect(() => {
-    fetchArticleDetials()
-  }, [])
-  const [likesCount, setLikesCount] = useState({
-    status: 'unlike',
-    likes: articleDetails ? articleDetails?.likes.length : 0
-  })
+  
   let user = JSON.parse(localStorage.getItem('user'))
   
   const deleteArticle = async ()=>{
@@ -140,31 +135,58 @@ const Article = () => {
       }
     }
   }
+  const [likesCount, setLikesCount] = useState({
+    status: 'unlike',
+    likes: articleDetails ? articleDetails?.likes.length : 0
+  })
+  const [isBookmarked, setIsBookmarked] = useState(false)
+  const [isLiked, setIsLiked] = useState({
+    status: false,
+    likesCount: null
+  })
+  useEffect(() => {
+    fetchArticleDetials()
+  }, [])
+  useEffect(() => {
+    // Check if articleDetails exist
+    if (articleDetails) {
+      // Get the user's ID from localStorage
+      const userId = JSON.parse(localStorage.getItem('user'))?.id;
+  
+    // Check if the user's ID matches any bookmark ID in articleDetails
+    // The benefit of using some(callback_func) is that 
+    // some() immediately returns true and stops iterating through the array (when we found the element)
+    // Otherwise, if callbackFn returns a falsy value for all elements, some() returns false.
+      const isUserBookmarked = articleDetails.bookmarks.some(
+        (bookmark) => bookmark.id === userId
+      );
+      // Update the isBookmarked state based on the bookmark status
+      setIsBookmarked(isUserBookmarked);
 
-  const likeDislikeHandel = async (event)=>{
-    
-
+      const isUserLiked = articleDetails.likes.some(
+        (like) => like.id === userId
+      );
+      // Update the isUserLiked state based on the like status
+      setIsLiked({likesCount: articleDetails?.likes.length, status: isUserLiked});
+    }
+  }, [articleDetails]);
+  const bookmarkHandler = async (event)=>{
     try{
-      const response = await axiosAPI({
+      const {data} = await axiosAPI({
         method: 'post',
-        url: `article/like-or-dislike/${article_id}`,
+        url: `/add-or-remove-bookmark`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }
+        }, 
+        params: {
+            articleID: articleDetails?.id,
+          }
       })
-      console.log(response.data)
-      setLikesCount(response.data.likesCount)
-      setLikesCount({
-        status: 'unlike',
-        likes: articleDetails ? articleDetails?.likes.length : 0
-      })
-      if (likesCount.status === 'unlike') {
-        event.target.attributes.fill.nodeValue = 'none'
-        event.target.attributes.stroke.nodeValue = 'currentColor'
+      if (data==='bookmarked'){
+        setIsBookmarked(true)
       }else{
-          event.target.attributes.fill.nodeValue = 'red'
-          event.target.attributes.stroke.nodeValue = 'red'
+        setIsBookmarked(false)
       }
     }catch(error){
       if(error.response.status===401){
@@ -172,13 +194,38 @@ const Article = () => {
       }
     }
   }
+  const likeDislikeHandel = async (event)=>{
+    try{
+      const {data} = await axiosAPI({
+        method: 'post',
+        url: `article/like-or-dislike`,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        params: {
+            articleID: articleDetails?.id,
+          }
+      })
+      if (data?.status==='liked'){
+        setIsLiked({likesCount: data?.likesCount, status: true})
+      }else{
+        setIsLiked({likesCount: data?.likesCount, status: false})
+      }
+    }catch(error){
+      if(error.response.status===401){
+        notifyError('You are not authorized, Login first')
+      }
+    }
+  }
+//   Creating the TABLE OF CONTENT HEADINGS
   const contentRef = useRef(null)
   const headings = contentRef.current && contentRef.current.querySelectorAll("h1, h2")
-  headings && Object.values(headings).map(heading=>{
+  headings && Object.values(headings).map(heading=>(
     heading.id = heading.innerText 
-
-  })
+  ))
   const stats = articleDetails?.content && readingTime(articleDetails?.content)
+  
 
   return (
     <div className='w-screen bg-white h-screen'>
@@ -207,16 +254,27 @@ const Article = () => {
                 <p className='text-[#374151]'> {stats && stats.text} </p>
               </div>
               <span className='text-[#374151]'>·</span>
-              <button  type='button' className='flex gap-1 opacity-75 items-center'>
-                <svg onClick={likeDislikeHandel} fill="none" viewBox="0 0 24 24" class="h-6 w-6 mr-1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                <span>{likesCount.likes}</span>
+              <button onClick={likeDislikeHandel}  type='button' className='flex gap-1 opacity-75 items-center'>
+                {
+                    isLiked?.status ?
+                    <svg  fill="red" viewBox="0 0 24 24" class="h-6 w-6 mr-1 pointer-events-none" stroke="red"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    :
+                    <svg  fill="none" viewBox="0 0 24 24" class="h-6 w-6 mr-1 pointer-events-none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                }
+                <span>{isLiked?.likesCount}</span>
               </button>
               <span className='text-[#374151]'>·</span>
-              <button className='hover:bg-[#e5e7eb] rounded-full py-2 px-2' type="button" variant="transparent" aria-label="Bookmark">
-                <svg fill='#374151' className="h-5 w-5" viewBox="0 0 1000 1000"><path fill="#374151" fill-rule="evenodd" d="M153.906 69.336c-19.14 0-34.57 15.43-34.57 34.57v766.602l277.148-184.766 277.149 184.766V519.531c0-19.14 15.429-34.57 34.57-34.57s34.57 15.43 34.57 34.57V1000L396.484 769.141 50 1000V103.906C50 46.484 96.68 0 153.906 0h277.149c19.14 0 34.57 15.43 34.57 34.57s-15.43 34.57-34.57 34.57H153.906v.196ZM777.539 0c19.141 0 34.57 15.43 34.57 34.57v138.477c0 19.14-15.429 34.57-34.57 34.57H639.062c-19.14 0-34.57-15.43-34.57-34.57 0-19.141 15.43-34.57 34.57-34.57h103.907V34.57c0-19.14 15.429-34.57 34.57-34.57Z" clip-rule="evenodd"></path><path fill="inherit" fill-rule="evenodd" d="M742.969 173.242c0-19.14 15.43-34.57 34.57-34.57h138.477c19.14 0 34.57 15.43 34.57 34.57 0 19.141-15.43 34.571-34.57 34.571H812.11v103.906c0 19.14-15.43 34.57-34.571 34.57-19.14 0-34.57-15.43-34.57-34.57V173.242Z" clip-rule="evenodd"></path></svg>
+              <button onClick={bookmarkHandler} className='hover:bg-[#e5e7eb]  rounded-full py-2 px-2' type="button" variant="transparent" aria-label="Bookmark">
+                {
+                    isBookmarked ? 
+                    <svg viewBox="0 0 18 20" class="h-5 w-5 pointer-events-none" fill="#374151" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.54623 0.326736C3.18797 -0.000244141 4.02805 -0.000244141 5.7082 -0.000244141H12.2918C13.972 -0.000244141 14.8121 -0.000244141 15.4538 0.326736C16.0183 0.614356 16.4772 1.0733 16.7648 1.63778C17.0918 2.27952 17.0918 3.1196 17.0918 4.79976V19.0167C17.0918 19.4453 17.0918 19.6596 17.0016 19.7887C16.9227 19.9014 16.801 19.9767 16.6649 19.9968C16.5091 20.0198 16.3174 19.9239 15.9341 19.7323L11.1466 17.3386C10.3595 16.945 9.966 16.7482 9.55321 16.6708C9.1876 16.6022 8.81243 16.6022 8.44682 16.6708C8.03403 16.7482 7.64048 16.945 6.85339 17.3386L2.06598 19.7323C1.68261 19.9239 1.49093 20.0198 1.33512 19.9968C1.19907 19.9767 1.0773 19.9014 0.998475 19.7887C0.908203 19.6596 0.908203 19.4453 0.908203 19.0167V4.79976C0.908203 3.1196 0.908203 2.27952 1.23518 1.63778C1.5228 1.0733 1.98175 0.614356 2.54623 0.326736ZM12.7672 6.77236C13.0601 6.47946 13.0601 6.00459 12.7672 5.7117C12.4743 5.4188 11.9994 5.4188 11.7065 5.7117L8.07535 9.34287L6.75612 8.02364C6.46323 7.73075 5.98836 7.73075 5.69546 8.02364C5.40257 8.31654 5.40257 8.79141 5.69546 9.0843L7.54502 10.9339C7.83791 11.2268 8.31279 11.2268 8.60568 10.9339L12.7672 6.77236Z"></path></svg>
+                    :
+                    <svg fill='#374151' className="h-5 w-5 pointer-events-none" viewBox="0 0 1000 1000"><path fill="#374151" fill-rule="evenodd" d="M153.906 69.336c-19.14 0-34.57 15.43-34.57 34.57v766.602l277.148-184.766 277.149 184.766V519.531c0-19.14 15.429-34.57 34.57-34.57s34.57 15.43 34.57 34.57V1000L396.484 769.141 50 1000V103.906C50 46.484 96.68 0 153.906 0h277.149c19.14 0 34.57 15.43 34.57 34.57s-15.43 34.57-34.57 34.57H153.906v.196ZM777.539 0c19.141 0 34.57 15.43 34.57 34.57v138.477c0 19.14-15.429 34.57-34.57 34.57H639.062c-19.14 0-34.57-15.43-34.57-34.57 0-19.141 15.43-34.57 34.57-34.57h103.907V34.57c0-19.14 15.429-34.57 34.57-34.57Z" clip-rule="evenodd"></path><path fill="inherit" fill-rule="evenodd" d="M742.969 173.242c0-19.14 15.43-34.57 34.57-34.57h138.477c19.14 0 34.57 15.43 34.57 34.57 0 19.141-15.43 34.571-34.57 34.571H812.11v103.906c0 19.14-15.43 34.57-34.571 34.57-19.14 0-34.57-15.43-34.57-34.57V173.242Z" clip-rule="evenodd"></path></svg>
+
+                }
               </button>
             </div>
-            {(user && (user.pk ===  articleDetails?.author?.id)) ?
+            {(userData && (userData.id ===  articleDetails?.author?.id)) ?
               <div className='relative'>
                 <button ref={moreInfoBtnRef} onClick={()=>setMoreInfo(!moreInfo)} className='flex gap-2 items-center py-2 px-3 font-medium rounded-full border text-sm hover:bg-[#e5e7eb]'>
                   <svg fill='#374151' class="w-5 h-5" viewBox="0 0 512 512"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm216 248c0 118.7-96.1 216-216 216-118.7 0-216-96.1-216-216 0-118.7 96.1-216 216-216 118.7 0 216 96.1 216 216zm-207.5 86.6l115-115.1c4.7-4.7 4.7-12.3 0-17l-7.1-7.1c-4.7-4.7-12.3-4.7-17 0L256 303l-99.5-99.5c-4.7-4.7-12.3-4.7-17 0l-7.1 7.1c-4.7 4.7-4.7 12.3 0 17l115 115.1c4.8 4.6 12.4 4.6 17.1-.1z"></path></svg>
@@ -228,22 +286,19 @@ const Article = () => {
                     <svg  class="w-5 h-5 opacity-75" viewBox="0 0 448 512"><path d="M224 480a32 32 0 01-32-32h-32a64 64 0 10128 0h-32a32 32 0 01-32 32zm209.37-145.19c-28-26.62-49.34-54.48-49.34-148.9 0-79.6-63.37-144.5-144-152.36V16a16 16 0 00-32 0v17.56C127.35 41.41 64 106.31 64 185.91c0 94.4-21.41 122.28-49.35 148.9a46.47 46.47 0 00-11.27 51.24A47.68 47.68 0 0048 416h352a47.67 47.67 0 0044.62-30 46.47 46.47 0 00-11.25-51.19zM400 384H48c-14.22 0-21.35-16.47-11.32-26C71.54 324.8 96 287.66 96 185.91 96 118.53 153.22 64 224 64s128 54.52 128 121.91c0 101.34 24.22 138.68 59.28 172.07C421.37 367.56 414.16 384 400 384zM296 224h-56v-56a8 8 0 00-8-8h-16a8 8 0 00-8 8v56h-56a8 8 0 00-8 8v16a8 8 0 008 8h56v56a8 8 0 008 8h16a8 8 0 008-8v-56h56a8 8 0 008-8v-16a8 8 0 00-8-8z"></path></svg>
                     <span>Follow</span>
                   </button>
-                  <button className='flex gap-3 items-center py-3 px-4 hover:bg-[#f3f4f6] w-full'>
+                  <Link state={articleDetails} to={`/edit-story`} className='flex gap-3 items-center py-3 px-4 hover:bg-[#f3f4f6] w-full'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
                     <span>Edit</span>
-                  </button>
+                  </Link>
                   <button onClick={()=>setButtonPopupArticle(true)} className='flex gap-3 items-center py-3 px-4 hover:bg-[#f3f4f6] w-full'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>Delete</span>
                   </button>
                 </MoreInfoPopup>
               </div>
-
             :
               ''
             }
-              
-
           </div>
           {/* Table of Content */}
           <div id='tableOfContent' className='w-full' >
@@ -267,8 +322,6 @@ const Article = () => {
                         </li>
                       ))
                 }
-                
-                
               </ul> 
             </div>
           </div>
@@ -298,21 +351,21 @@ const Article = () => {
           </div>
           {/* Comments Section Header */}
           <div className='flex flex-col sm:flex-row sm:justify-between w-full items-center p-4 mb-2 border rounded-lg'>
-            <h3 className='text-xl font-bold tracking-tight text-[#111827] mb-6 sm:mb-0'>Comments <span>(3)</span></h3>
+            <h3 className='text-xl font-bold tracking-tight text-[#111827] mb-6 sm:mb-0'>Comments <span>({comments.length})</span></h3>
             <button onClick={()=>setShowCommentInput(true)} className='flex items-center p-2 font-medium hover:bg-[#f3f4f6] gap-2 border border-blue-600 rounded-lg text-blue-600'>
               <svg class="w-5 h-5" viewBox="0 0 384 512" fill='#2962ff'><path d="M368 224H224V80c0-8.84-7.16-16-16-16h-32c-8.84 0-16 7.16-16 16v144H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h144v144c0 8.84 7.16 16 16 16h32c8.84 0 16-7.16 16-16V288h144c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z"></path></svg>
               <span>Write a comment</span>
             </button>
           </div>
           {/* New Comment */}
-          <NewComment comments={comments} setComments={setComments} showCommentInput={showCommentInput}  type={'Post'} setShowCommentInput={setShowCommentInput} />
+          <NewComment articleDetails={articleDetails} setComments={setComments} showCommentInput={showCommentInput}  type={'Post'} setShowCommentInput={setShowCommentInput} />
           {/* Comments Section */}
           <div className='w-full mb-8'>
           {
-            comments.map((comment, index)=>{
+            comments.map((commentDetails)=>{
               return (
               <>
-                <Comment setShowCommentInput={setShowCommentInput} index={index} setButtonPopup={setButtonPopup} />
+                <Comment setComments={setComments} commentDetails={commentDetails} setShowCommentInput={setShowCommentInput} />
               </>
               )
             })
@@ -337,13 +390,7 @@ const Article = () => {
         </div>
         
     </article>
-    {/* Delete a Comment Popup */}
-    <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
-      <div className='flex flex-col '>
-        <p className='my-8'>Do you really want to delete your comment ?</p>
-        <button className='py-2 self-end w-fit px-4 rounded-full text-white bg-red-500 font-medium self-end'>Delete</button>
-      </div>
-    </Popup>
+    
     {/* Delete the Article Popup */}
     <Popup trigger={buttonPopupArticle} setTrigger={setButtonPopupArticle}>
       <div className='flex flex-col '>
