@@ -7,6 +7,7 @@ import { axiosAPI } from '../axios'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import Moment from 'react-moment';
 import AuthContext from '../context/AuthContext'
+import APIContext from '../context/APIContext'
 import {toast} from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
 import readingTime from 'reading-time/lib/reading-time'
@@ -88,7 +89,6 @@ const Article = () => {
   
   const [buttonPopupArticle, setButtonPopupArticle] = useState(false)
 
-  const deleteComment = (e)=>{}
 
   /*
   1. when the page reload the first time 
@@ -115,31 +115,9 @@ const Article = () => {
     }
   }
   
-  let user = JSON.parse(localStorage.getItem('user'))
   
-  const deleteArticle = async ()=>{
-    try{
-      const response = await axiosAPI({
-        method: 'post',
-        url: `article/delete/${article_id}`,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      })
-      navigate('/')
-      notifySuccess(response.data)
-    }catch(error){
-      if(error.response.status==401){
-        notifyError('You are not Authorized, Login again')
-      }
-    }
-  }
-  const [likesCount, setLikesCount] = useState({
-    status: 'unlike',
-    likes: articleDetails ? articleDetails?.likes.length : 0
-  })
-  const [isBookmarked, setIsBookmarked] = useState(false)
+  
+
   const [isLiked, setIsLiked] = useState({
     status: false,
     likesCount: null
@@ -147,6 +125,7 @@ const Article = () => {
   useEffect(() => {
     fetchArticleDetials()
   }, [])
+  const {bookmarkHandler, setIsBookmarked, isBookmarked, deleteArticle} = useContext(APIContext)
   useEffect(() => {
     // Check if articleDetails exist
     if (articleDetails) {
@@ -170,30 +149,7 @@ const Article = () => {
       setIsLiked({likesCount: articleDetails?.likes.length, status: isUserLiked});
     }
   }, [articleDetails]);
-  const bookmarkHandler = async (event)=>{
-    try{
-      const {data} = await axiosAPI({
-        method: 'post',
-        url: `/add-or-remove-bookmark`,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        }, 
-        params: {
-            articleID: articleDetails?.id,
-          }
-      })
-      if (data==='bookmarked'){
-        setIsBookmarked(true)
-      }else{
-        setIsBookmarked(false)
-      }
-    }catch(error){
-      if(error.response.status===401){
-        notifyError('You are not authorized, Login first')
-      }
-    }
-  }
+  
   const likeDislikeHandel = async (event)=>{
     try{
       const {data} = await axiosAPI({
@@ -264,7 +220,7 @@ const Article = () => {
                 <span>{isLiked?.likesCount}</span>
               </button>
               <span className='text-[#374151]'>·</span>
-              <button onClick={bookmarkHandler} className='hover:bg-[#e5e7eb]  rounded-full py-2 px-2' type="button" variant="transparent" aria-label="Bookmark">
+              <button onClick={(event)=>bookmarkHandler(event, articleDetails)} className='hover:bg-[#e5e7eb]  rounded-full py-2 px-2' type="button" variant="transparent" aria-label="Bookmark">
                 {
                     isBookmarked ? 
                     <svg viewBox="0 0 18 20" class="h-5 w-5 pointer-events-none" fill="#374151" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.54623 0.326736C3.18797 -0.000244141 4.02805 -0.000244141 5.7082 -0.000244141H12.2918C13.972 -0.000244141 14.8121 -0.000244141 15.4538 0.326736C16.0183 0.614356 16.4772 1.0733 16.7648 1.63778C17.0918 2.27952 17.0918 3.1196 17.0918 4.79976V19.0167C17.0918 19.4453 17.0918 19.6596 17.0016 19.7887C16.9227 19.9014 16.801 19.9767 16.6649 19.9968C16.5091 20.0198 16.3174 19.9239 15.9341 19.7323L11.1466 17.3386C10.3595 16.945 9.966 16.7482 9.55321 16.6708C9.1876 16.6022 8.81243 16.6022 8.44682 16.6708C8.03403 16.7482 7.64048 16.945 6.85339 17.3386L2.06598 19.7323C1.68261 19.9239 1.49093 20.0198 1.33512 19.9968C1.19907 19.9767 1.0773 19.9014 0.998475 19.7887C0.908203 19.6596 0.908203 19.4453 0.908203 19.0167V4.79976C0.908203 3.1196 0.908203 2.27952 1.23518 1.63778C1.5228 1.0733 1.98175 0.614356 2.54623 0.326736ZM12.7672 6.77236C13.0601 6.47946 13.0601 6.00459 12.7672 5.7117C12.4743 5.4188 11.9994 5.4188 11.7065 5.7117L8.07535 9.34287L6.75612 8.02364C6.46323 7.73075 5.98836 7.73075 5.69546 8.02364C5.40257 8.31654 5.40257 8.79141 5.69546 9.0843L7.54502 10.9339C7.83791 11.2268 8.31279 11.2268 8.60568 10.9339L12.7672 6.77236Z"></path></svg>
@@ -393,10 +349,10 @@ const Article = () => {
     
     {/* Delete the Article Popup */}
     <Popup trigger={buttonPopupArticle} setTrigger={setButtonPopupArticle}>
-      <div className='flex flex-col '>
+      <form onSubmit={(event)=>deleteArticle(event, article_id)} className='flex flex-col '>
         <p className='my-8'>Do you really want to delete this article ?</p>
-        <button onClick={deleteArticle} type='button' className='py-2 self-end w-fit px-4 rounded-full text-white bg-red-500 font-medium self-end'>Delete</button>
-      </div>
+        <button type='submit' className='py-2 self-end w-fit px-4 rounded-full text-white bg-red-500 font-medium self-end'>Delete</button>
+      </form>
     </Popup>
     </div>
   )

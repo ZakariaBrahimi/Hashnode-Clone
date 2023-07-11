@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import DarkModeContext from '../context/DarkModeContext'
+import APIContext from '../context/APIContext'
 
 const RightSidebar = () => {
   const {isDark} = useContext(DarkModeContext)
+  const {draftedList} = useContext(APIContext)
   return (
     <div className='hidden mr-5 mb-8
                     lg:flex lg:col-span-3 flex-col space-y-5
@@ -36,7 +38,7 @@ const RightSidebar = () => {
         {/* Drafts */}
         <div className="bg-white dark:bg-[#0f172a] dark:border-[#1e293b] dark:text-white border rounded-xl p-5 space-x-2">
           <div className='flex items-center justify-between text-[#374151]'>
-            <h1 className='text-xl font-extrabold dark:text-white'>Drafts(2)</h1>
+            <h1 className='text-xl font-extrabold dark:text-white'>Drafts({draftedList?.length})</h1>
             <Link to='drafts' className='py-1 px-3 rounded-full border dark:border-[#2b384b] dark:text-[#d3dae4] hover:bg-[#e5e7eb] dark:text-[#cfd6de] dark:hover:bg-[#324154]'>See all</Link>
           </div>
           <a className='cursor-pointer'>

@@ -15,6 +15,7 @@ import EditArticle from "./pages/EditArticle";
 import LoginSignup from "./pages/LoginSignup";
 import Article from "./pages/Article";
 import {AuthProvider} from './context/AuthContext'
+import {APIProvider} from './context/APIContext'
 import {DarkModeProvider} from './context/DarkModeContext'
 import PrivateRoute from './utils/PrivateRoute'
 import { ToastContainer } from 'react-toastify';
@@ -27,6 +28,7 @@ function App() {
 
   
   return (
+    <APIProvider>
     <AuthProvider>
     <DarkModeProvider>
       <div className="App dark:bg-[#000000] flex flex-col gap-5 bg-[#fafbff] ">
@@ -71,6 +73,7 @@ function App() {
       </div>
     </DarkModeProvider>
     </AuthProvider>
+    </APIProvider>
   );
 }
 export default App;

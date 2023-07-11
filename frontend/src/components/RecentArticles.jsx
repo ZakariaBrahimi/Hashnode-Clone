@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import ArticleCard from './ArticleCard'
 import { axiosAPI } from '../axios'
 import ArticleCardSkeltons from './skeltons/ArticleCardSkeltons'
+import APIContext from '../context/APIContext'
 
 
 const RecentArticles = () => {
   const [recentArticlesData, setRecentArticlesData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const {draftedArticles} = useContext(APIContext)
   const fetchRecentArticles = async () => {
     try{
         const response = await axiosAPI({
@@ -22,13 +24,14 @@ const RecentArticles = () => {
         setRecentArticlesData(response.data)
     }catch(error){}
   }
+
   useEffect(()=>{
     fetchRecentArticles()
+    draftedArticles()
   }, [])
   if (isLoading) return <ArticleCardSkeltons />
   return (
     <div className={`rounded-b-lg`} >
-      {/* {isLoading && <ArticleCardSkeltons />} */}
         {recentArticlesData.map((article, index)=>{ 
             return <ArticleCard isLoading={isLoading} article={article} key={article?.id} />         
         })}

@@ -12,6 +12,10 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         depth  = 1
 
 class ArticleSerializer(serializers.ModelSerializer):
+    # new field created for recent article view
+    articleCommentsCount = serializers.SerializerMethodField(method_name='get_comments_length')
+    def get_comments_length(self, article):
+        return article.comments.count()
     class Meta:
         model = Article
         fields = '__all__'

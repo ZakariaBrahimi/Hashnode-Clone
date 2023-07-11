@@ -42,14 +42,14 @@ def user_delete(request):
 
 
 #Article
-
+# user = request.user
+#     bookmarked_articles = user.bookmarks.all()
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def recentArticles(request):
-	recent_articles = Article.objects.filter(status='published').order_by('-updated_at')
-	recent_articles_serializer = ArticleSerializer(recent_articles, many=True)
-	print(recent_articles)
-	return Response(recent_articles_serializer.data)
+    recentArticles = Article.objects.filter(status='published').order_by('-updated_at')
+    serializer = ArticleSerializer(recentArticles, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -122,9 +122,13 @@ def edit_article(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_article(request, article_id):
-	article = get_object_or_404(Article, id=article_id, author=request.user)
-	article.delete()
-	return Response('your article has been deleted successfully.')
+    user = request.user
+    article = get_object_or_404(Article, id=article_id, author=user)
+    article.delete()
+    articles = Article.objects.filter(author=user, status='draft')
+    serializer = ArticleSerializer(articles, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -245,18 +249,28 @@ def delete_comment(request):
     #     return Response('serializer.errors')
 
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def bookmarked_articles_list(request, user):
-	""" Returning the list of all bookmarked articles of the current logged user """
-	return Response()
-
+def bookmarked_articles_list(request):
+    """Returning the list of all bookmarked articles of the current logged user"""
+    user = request.user
+    bookmarked_articles = user.bookmarks.all()
+    serializer = ArticleSerializer(bookmarked_articles, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def drafted_articles_list(request, user):
 	""" Returning the list of all drafts articles of the current logged user """
 	return Response()
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def drafted_articles_list(request):
+    user = request.user
+    drafted_articles = Article.objects.filter(author=user, status='draft')
+    serializer = ArticleSerializer(drafted_articles, many=True)
+    return Response(serializer.data)
 
 
 # Tags
