@@ -9,6 +9,7 @@ import requests
 from django.shortcuts import render, redirect
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+from notifications.api import routing
 class AccountConfirmEmailTemplateView(TemplateView):
     template_name='verify_email.html'
     def get(self,request, *args, **kwargs):
@@ -28,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('userAccount.urls')),
     path('hashnode/api/', include('hashnode.api.urls')),
+    path('ws/notifications', include(routing.websocket_urlpatterns)),
     # drf_spectacular
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:

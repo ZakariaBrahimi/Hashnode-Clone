@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import AuthContext from '../context/AuthContext'
 import DarkModeContext from '../context/DarkModeContext'
 
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const Navbar = () => {
   let {logoutUser, userData} = useContext(AuthContext)
@@ -17,7 +18,6 @@ const Navbar = () => {
   const [open, isOpen] = useState(false)
   const [profileOpen, isProfileOpen] = useState(false)
   const [notificationsOpen, isNotificationsOpen] = useState(false)
-  //console.log(typeof(window.screen.width))
   useEffect(()=>{
     const handler = (e)=>{
        if(!notificationsBox.current.contains(e.target) && !notificationsIcon.current.contains(e.target)){
@@ -36,6 +36,9 @@ const Navbar = () => {
       document.removeEventListener('click', profileHandler)
     }
   })
+
+
+
   if(location.pathname !== '/onboard'){
     return (
       <header className='relative'>

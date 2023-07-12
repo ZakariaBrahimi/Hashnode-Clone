@@ -7,6 +7,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -14,9 +15,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'channels',
     # Project Apps
     'userAccount',
     'hashnode',
+    'notifications',
     # DJ Rest Framework
     'rest_framework',
     'rest_framework.authtoken',
@@ -69,7 +72,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = "core.asgi.application"
 
 
 # Password validation
