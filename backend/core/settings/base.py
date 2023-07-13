@@ -72,10 +72,14 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = "core.Wsgi.application"
 ASGI_APPLICATION = "core.asgi.application"
 
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -163,9 +167,20 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 
 # CORS_ALLOWED_ORIGINS = [
-#     'http://127.0.0.1:3000/',
+#     'http://127.0.0.1:3000',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Hashnode Clone API',

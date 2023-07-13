@@ -1,9 +1,7 @@
-from ..models import *
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny 
 from django.shortcuts import get_object_or_404
-from .serializers import *
 from django.contrib.auth import get_user_model
 from channels.generic.websocket import WebsocketConsumer
 import json
@@ -17,7 +15,14 @@ class ChatConsumer(WebsocketConsumer):
         # checking if user authenticated
         # if it is authenticated: accept the connection
         print('hhhhhhhhhhhhhhhhhhhhh')
-        self.accept()
+        # self.user = self.scope["user"]
+        # if not self.user.is_authenticated:
+        #     print('unauthorized to open a long running connection')
+        #     return
+        self.accept() #Accepts the WebSocket connection.
+        print('WebSocket connection has been accepted')
+        
+        
 
     def disconnect(self, close_code):
         """called when the WebSocket connection is closed"""

@@ -22,7 +22,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PasswordReset from "./pages/PasswordReset";
 import PasswordChange from "./pages/PasswordChange";
-
+import { socket } from './socket';
 
 function App() {
 

@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import AuthContext from '../context/AuthContext'
 import DarkModeContext from '../context/DarkModeContext'
 
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+// import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 const Navbar = () => {
   let {logoutUser, userData} = useContext(AuthContext)

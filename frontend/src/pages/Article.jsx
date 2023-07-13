@@ -11,8 +11,7 @@ import APIContext from '../context/APIContext'
 import {toast} from 'react-toastify';
 import ReactMarkdown from 'react-markdown'
 import readingTime from 'reading-time/lib/reading-time'
-import useWebSocket, { ReadyState } from 'react-use-websocket';
-
+import { socket } from '../socket';
 
 const Article = () => {
     const {userData,} = useContext(AuthContext)
@@ -191,45 +190,23 @@ const Article = () => {
 
 
 
-  const socketURL = `http://127.0.0.1:8000/ws/notifications`
-  const {sendMessage, sendJsonMessage, lastMessage, lastJsonMessage, readyState, getWebSocket,} = useWebSocket(socketURL, 
-    {
-    onOpen: () => {
-        console.log('opened')
-    },
-    //Will attempt to reconnect on all close events, such as server shutting down
-    shouldReconnect: (closeEvent) => true,
-  });
-  const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  }[readyState];
-  const [messageHistory, setMessageHistory] = useState([]);
+
+
+  const access_token = localStorage.getItem('accessToken')
+  const URL = `ws://127.0.0.1:8000/ws/notifications?token=${access_token}`;
+  
   useEffect(() => {
-    if (lastMessage !== null) {
-      setMessageHistory((prev) => prev.concat(lastMessage));
+    const socket = new WebSocket(URL);
+    if(access_token){
+        console.log('connecting ...')
+        socket.on('connect', () => {
+            console.log('WebSocket connection opened');
+        });
     }
+
+  }, []);
     
-  }, [lastMessage, setMessageHistory]);
-  useEffect(() => {console.log(ReadyState); handleClickSendMessage()}, [])
-  useEffect(() => {
-    // Open WebSocket connection on the first render
-    if (readyState === 0) {
-      // readyState 0 indicates CONNECTING state
-      // Perform any necessary actions here
-      console.log('WebSocket connecting...');
-    }
-    if (readyState === 1) {
-      // readyState 1 indicates OPENING state
-      // Perform any necessary actions here
-      console.log('WebSocket Opened Successfully...');
-    }
-  }, [readyState]);
   return (
     <div className='w-screen bg-white h-screen'>
     <article className='w-screen md:w-11/12 lg:w-9/12 md:mx-auto xl:w-8/12 '>
